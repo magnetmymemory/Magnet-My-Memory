@@ -781,6 +781,58 @@
             display: none !important;
         }
         
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.6);
+        }
+        
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+        
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 70px;
+            background: white;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .whatsapp-float:hover .whatsapp-tooltip {
+            opacity: 1;
+            visibility: visible;
+            right: 75px;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .hero {
@@ -797,6 +849,22 @@
             }
             
             .nav-links {
+                display: none;
+            }
+            
+            .whatsapp-float {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-float svg {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .whatsapp-tooltip {
                 display: none;
             }
             
@@ -975,8 +1043,104 @@
         
         <div id="customer-preview"></div>
         
-        <div style="margin-top: 2rem;">
-            <button class="btn-primary" onclick="submitCustomerOrder()" id="submit-order-btn" style="display: none;">Submit Order</button>
+        <!-- Customer Information Form -->
+        <div id="customer-info-form" style="display: none; margin-top: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3);">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 2rem; color: white;">Your Contact Details</h3>
+                
+                <div class="form-group">
+                    <label style="color: white;">Your Name *</label>
+                    <input type="text" id="customer-name-input" required style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);">
+                </div>
+                
+                <div class="form-group">
+                    <label style="color: white;">Your Email *</label>
+                    <input type="email" id="customer-email-input" required style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);">
+                </div>
+                
+                <div class="form-group">
+                    <label style="color: white;">Phone Number</label>
+                    <input type="tel" id="customer-phone-input" style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);">
+                </div>
+                
+                <div class="form-group">
+                    <label style="color: white;">Special Instructions (Optional)</label>
+                    <textarea id="customer-notes-input" rows="3" style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);"></textarea>
+                </div>
+                
+                <button class="btn-primary" onclick="showPaymentSection()" style="width: 100%; margin-top: 1rem;">Continue to Payment</button>
+            </div>
+        </div>
+        
+        <div id="payment-section" style="display: none; margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 20px; border: 2px solid rgba(255, 255, 255, 0.3);">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 2rem;">Complete Your Order</h3>
+                
+                <!-- Order Summary -->
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label style="color: white;">Product Type</label>
+                            <select id="customer-product-type" style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);" onchange="calculateTotal()">
+                                <option value="4">Single Magnet (2"x2") - £4</option>
+                                <option value="6">Magnet Strip (3 photos) - £6</option>
+                                <option value="5">Save The Date (4"x6") - £5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label style="color: white;">Quantity</label>
+                            <input type="number" id="customer-quantity" value="1" min="1" style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);" onchange="calculateTotal()">
+                        </div>
+                        <div class="form-group">
+                            <label style="color: white;">Delivery</label>
+                            <select id="customer-delivery" style="background: var(--dark); color: white; border: 2px solid rgba(255, 255, 255, 0.3);" onchange="calculateTotal()">
+                                <option value="2.75">UK Delivery - £2.75</option>
+                                <option value="0">Collection - Free</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="border-top: 2px solid rgba(255, 255, 255, 0.3); padding-top: 1.5rem; text-align: center;">
+                        <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">Total Amount</div>
+                        <div id="total-amount" style="font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--accent);">£4.00</div>
+                    </div>
+                </div>
+                
+                <!-- Payment Methods -->
+                <h4 style="text-align: center; margin-bottom: 1.5rem; font-size: 1.3rem;">Choose Payment Method</h4>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <!-- PayPal Option -->
+                    <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; color: var(--dark);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">💳</div>
+                        <h4 style="font-family: 'Playfair Display', serif; margin-bottom: 1rem; color: var(--dark);">PayPal</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem;">Pay securely with PayPal or card</p>
+                        <button type="button" onclick="processPayPalPayment()" class="btn-primary" style="width: 100%; background: #0070BA; margin: 0;">Pay with PayPal</button>
+                    </div>
+                    
+                    <!-- Bank Transfer Option -->
+                    <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; color: var(--dark);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏦</div>
+                        <h4 style="font-family: 'Playfair Display', serif; margin-bottom: 1rem; color: var(--dark);">Bank Transfer</h4>
+                        <p style="color: var(--text-light); margin-bottom: 1.5rem; font-size: 0.9rem;">Transfer directly to our bank</p>
+                        <div style="text-align: left; background: var(--light); padding: 1.5rem; border-radius: 10px; font-size: 0.9rem;">
+                            <div style="margin-bottom: 0.5rem;"><strong>Account Name:</strong> M A Aslam</div>
+                            <div style="margin-bottom: 0.5rem;"><strong>Sort Code:</strong> 20-08-98</div>
+                            <div style="margin-bottom: 0.5rem;"><strong>Account Number:</strong> 00594482</div>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-light);">Please include your order reference in the payment description</div>
+                        </div>
+                        <button onclick="processBankTransfer()" class="btn-secondary" style="width: 100%; margin-top: 1rem;">I've Made a Transfer</button>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 2px solid rgba(255, 255, 255, 0.3);">
+                    <p style="opacity: 0.8; font-size: 0.9rem;">After payment, we'll contact you at <span id="confirm-email" style="font-weight: 600;"></span> to confirm your order and arrange delivery/collection.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 2rem; text-align: center;">
+            <button class="btn-primary" onclick="proceedToCustomerInfo()" id="proceed-payment-btn" style="display: none;">Continue</button>
         </div>
     </section>
 
@@ -1025,6 +1189,14 @@
             </form>
         </div>
     </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/447755414299?text=Hi!%20I%20have%20a%20question%20about%20Magnet%20My%20Memory" target="_blank" class="whatsapp-float" aria-label="Contact us on WhatsApp">
+        <span class="whatsapp-tooltip">Chat with us!</span>
+        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.747 5.584 2.165 8.006L.051 31.682l7.883-2.068A15.935 15.935 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.133 22.569c-.344.968-2.017 1.779-3.296 2.011-.875.155-2.012.278-5.84-1.252-4.899-1.958-8.067-6.891-8.31-7.209-.235-.318-1.99-2.648-1.99-5.051 0-2.404 1.259-3.584 1.705-4.074.446-.49 1.227-.613 1.637-.613.203 0 .385.009.554.016.446.018.669.042 1.042.809.447 1.005 1.361 3.334 1.479 3.577.118.242.197.525.04.844-.157.318-.235.516-.469.795-.234.279-.492.623-.703.836-.234.235-.478.489-.205.959.273.47 1.214 1.999 2.605 3.24 1.79 1.597 3.298 2.094 3.768 2.328.47.235.745.196 1.019-.118.273-.313 1.172-1.367 1.484-1.837.313-.47.626-.392 1.056-.235.431.157 2.735 1.29 3.205 1.524.47.235.784.352.898.549.118.196.118 1.132-.226 2.226z"/>
+        </svg>
+    </a>
 
     <!-- Footer -->
     <footer>
@@ -1556,24 +1728,34 @@
             }
             
             const productNames = {
-                'single': 'Single 2"x2"',
-                'strip': '3-Photo Strip (2"x2")',
-                'savedate': 'Save The Date (4"x6")'
+                '4': 'Single 2"x2"',
+                '6': '3-Photo Strip (2"x2")',
+                '5': 'Save The Date (4"x6")'
             };
             
             tbody.innerHTML = orders.map(order => `
                 <tr>
                     <td><strong>${order.id}</strong></td>
-                    <td>${order.customerName}</td>
+                    <td>
+                        ${order.customerName}<br>
+                        <small style="color: var(--text-light);">${order.email}</small><br>
+                        <small style="color: var(--text-light);">${order.phone || ''}</small>
+                    </td>
                     <td>${productNames[order.productType] || order.productType || 'Single 2"x2"'}</td>
                     <td style="text-transform: capitalize;">${order.eventType}</td>
                     <td>${order.quantity}</td>
                     <td>£${order.price.toFixed(2)}</td>
-                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>
+                        <span class="status-badge status-${order.status}">${order.status}</span><br>
+                        ${order.paymentStatus ? '<small style="color: var(--text-light); margin-top: 0.25rem; display: block;">' + order.paymentStatus + '</small>' : ''}
+                    </td>
                     <td>${order.date}</td>
                     <td>
-                        <button class="btn-primary" onclick="updateAdminOrderStatus('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Update</button>
-                        <button class="btn-secondary" onclick="deleteAdminOrder('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; margin-left: 0.5rem;">Delete</button>
+                        ${order.images && order.images.length > 0 ? 
+                            `<button class="btn-primary" onclick="viewOrderPhotos('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; margin-bottom: 0.5rem; width: 100%;">📸 View Photos (${order.images.length})</button>` 
+                            : ''}
+                        <button class="btn-primary" onclick="updateAdminOrderStatus('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; margin-bottom: 0.5rem; width: 100%;">Update Status</button>
+                        <button class="btn-secondary" onclick="deleteAdminOrder('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: 100%;">Delete</button>
                     </td>
                 </tr>
             `).join('');
@@ -1599,6 +1781,164 @@
             localStorage.setItem('magnetMyMemoryOrders', JSON.stringify(orders));
             displayAdminOrders();
             updateAdminStats();
+        }
+        
+        function viewOrderPhotos(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order || !order.images || order.images.length === 0) {
+                alert('No photos found for this order');
+                return;
+            }
+            
+            // Get product dimensions
+            let width, height;
+            if (order.productType === '5') { // Save The Date
+                width = 4;
+                height = 6;
+            } else { // Single or Strip
+                width = 2;
+                height = 2;
+            }
+            
+            // Create a new window to show processed images
+            const popup = window.open('', '_blank', 'width=1000,height=800');
+            popup.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Order ${order.id} - Photos</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            padding: 20px;
+                            background: #f5f5f5;
+                        }
+                        h1 {
+                            color: #D4416F;
+                            margin-bottom: 10px;
+                        }
+                        .info {
+                            background: white;
+                            padding: 15px;
+                            border-radius: 10px;
+                            margin-bottom: 20px;
+                        }
+                        .photos {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                            gap: 15px;
+                        }
+                        .photo-card {
+                            background: white;
+                            padding: 10px;
+                            border-radius: 10px;
+                            text-align: center;
+                        }
+                        .photo-card img {
+                            width: 100%;
+                            height: auto;
+                            border-radius: 5px;
+                        }
+                        .photo-card canvas {
+                            width: 100%;
+                            border: 1px solid #ddd;
+                            margin-top: 10px;
+                        }
+                        button {
+                            background: #D4416F;
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            margin: 5px;
+                        }
+                        button:hover {
+                            background: #C51162;
+                        }
+                        .actions {
+                            background: white;
+                            padding: 15px;
+                            border-radius: 10px;
+                            margin-bottom: 20px;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>Order ${order.id} - ${order.customerName}</h1>
+                    <div class="info">
+                        <strong>Product:</strong> ${width}" x ${height}" magnets<br>
+                        <strong>Quantity Ordered:</strong> ${order.quantity}<br>
+                        <strong>Photos Uploaded:</strong> ${order.images.length}<br>
+                        <strong>Dimensions:</strong> ${width}" x ${height}" at 300 DPI = ${width * 300}px x ${height * 300}px
+                    </div>
+                    <div class="actions">
+                        <button onclick="downloadAllProcessed()">📥 Download All Processed Images</button>
+                        <button onclick="window.print()">🖨️ Print This Page</button>
+                    </div>
+                    <div class="photos" id="photos-container"></div>
+                    <script>
+                        const images = ${JSON.stringify(order.images)};
+                        const width = ${width};
+                        const height = ${height};
+                        const dpi = 300;
+                        const pixelWidth = width * dpi;
+                        const pixelHeight = height * dpi;
+                        
+                        images.forEach((imgSrc, index) => {
+                            const card = document.createElement('div');
+                            card.className = 'photo-card';
+                            card.innerHTML = '<h3>Photo ' + (index + 1) + '</h3>';
+                            
+                            const canvas = document.createElement('canvas');
+                            canvas.width = pixelWidth;
+                            canvas.height = pixelHeight;
+                            
+                            const img = new Image();
+                            img.onload = function() {
+                                const ctx = canvas.getContext('2d');
+                                
+                                // Calculate scaling to cover the canvas
+                                const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                                const x = (canvas.width / 2) - (img.width / 2) * scale;
+                                const y = (canvas.height / 2) - (img.height / 2) * scale;
+                                
+                                ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                                
+                                card.appendChild(canvas);
+                                
+                                const downloadBtn = document.createElement('button');
+                                downloadBtn.textContent = 'Download';
+                                downloadBtn.onclick = function() {
+                                    const link = document.createElement('a');
+                                    link.download = '${order.id}_photo_' + (index + 1) + '_${width}x${height}.png';
+                                    link.href = canvas.toDataURL('image/png');
+                                    link.click();
+                                };
+                                card.appendChild(downloadBtn);
+                            };
+                            img.src = imgSrc;
+                            
+                            document.getElementById('photos-container').appendChild(card);
+                        });
+                        
+                        function downloadAllProcessed() {
+                            const canvases = document.querySelectorAll('canvas');
+                            canvases.forEach((canvas, index) => {
+                                setTimeout(() => {
+                                    const link = document.createElement('a');
+                                    link.download = '${order.id}_photo_' + (index + 1) + '_${width}x${height}.png';
+                                    link.href = canvas.toDataURL('image/png');
+                                    link.click();
+                                }, index * 200);
+                            });
+                        }
+                    </script>
+                </body>
+                </html>
+            `);
+            popup.document.close();
         }
         
         function updateAdminStats() {
@@ -1667,12 +2007,249 @@
                 preview.appendChild(div);
             });
             
-            document.getElementById('submit-order-btn').style.display = customerImages.length > 0 ? 'inline-block' : 'none';
+            document.getElementById('proceed-payment-btn').style.display = customerImages.length > 0 ? 'inline-block' : 'none';
         }
         
         function removeCustomerImage(index) {
             customerImages.splice(index, 1);
             displayCustomerPreview();
+        }
+        
+        function proceedToCustomerInfo() {
+            if (customerImages.length === 0) {
+                alert('Please upload at least one photo');
+                return;
+            }
+            
+            // Show customer info form
+            document.getElementById('customer-info-form').style.display = 'block';
+            document.getElementById('customer-info-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function showPaymentSection() {
+            const name = document.getElementById('customer-name-input').value.trim();
+            const email = document.getElementById('customer-email-input').value.trim();
+            
+            if (!name || !email) {
+                alert('Please fill in your name and email');
+                return;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            // Show payment section
+            document.getElementById('payment-section').style.display = 'block';
+            document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('confirm-email').textContent = email;
+            
+            // Update quantity based on number of images
+            document.getElementById('customer-quantity').value = customerImages.length;
+            calculateTotal();
+        }
+        
+        function proceedToPayment() {
+            if (customerImages.length === 0) {
+                alert('Please upload at least one photo');
+                return;
+            }
+            
+            // Show payment section
+            document.getElementById('payment-section').style.display = 'block';
+            document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth' });
+            
+            // Update quantity based on number of images
+            document.getElementById('customer-quantity').value = customerImages.length;
+            calculateTotal();
+        }
+        
+        function calculateTotal() {
+            const productPrice = parseFloat(document.getElementById('customer-product-type').value);
+            const quantity = parseInt(document.getElementById('customer-quantity').value);
+            const delivery = parseFloat(document.getElementById('customer-delivery').value);
+            
+            const total = (productPrice * quantity) + delivery;
+            
+            document.getElementById('total-amount').textContent = '£' + total.toFixed(2);
+        }
+        
+        function processPayPalPayment() {
+            saveCustomerOrder('PayPal - Pending');
+            sendOrderNotification('PayPal');
+            
+            // Prepare PayPal form data
+            const productType = document.getElementById('customer-product-type').selectedOptions[0].text;
+            const quantity = document.getElementById('customer-quantity').value;
+            const amount = document.getElementById('total-amount').textContent.replace('£', '');
+            
+            // Create and submit PayPal form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'https://www.paypal.com/cgi-bin/webscr';
+            form.target = '_blank';
+            
+            const fields = {
+                'cmd': '_xclick',
+                'business': 'ajaz_1@hotmail.com',
+                'item_name': `${quantity}x ${productType}`,
+                'amount': amount,
+                'currency_code': 'GBP',
+                'return': 'https://www.magnetmymemory.com',
+                'cancel_return': 'https://www.magnetmymemory.com'
+            };
+            
+            for (let key in fields) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = fields[key];
+                form.appendChild(input);
+            }
+            
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+        }
+        
+        function processBankTransfer() {
+            copyBankDetails();
+            saveCustomerOrder('Bank Transfer - Pending');
+            sendOrderNotification('Bank Transfer');
+            
+            alert('Thank you! Please complete the bank transfer and we\'ll process your order once payment is received. We\'ll contact you at ' + document.getElementById('customer-email-input').value);
+        }
+        
+        function saveCustomerOrder(paymentStatus) {
+            const customerName = document.getElementById('customer-name-input').value;
+            const customerEmail = document.getElementById('customer-email-input').value;
+            const customerPhone = document.getElementById('customer-phone-input').value || 'Not provided';
+            const customerNotes = document.getElementById('customer-notes-input').value || '';
+            const productType = document.getElementById('customer-product-type').value;
+            const quantity = parseInt(document.getElementById('customer-quantity').value);
+            const delivery = parseFloat(document.getElementById('customer-delivery').value);
+            const productPrice = parseFloat(document.getElementById('customer-product-type').value);
+            const total = (productPrice * quantity) + delivery;
+            
+            // Create order object
+            const order = {
+                id: 'MMM-' + Date.now(),
+                customerName: customerName,
+                email: customerEmail,
+                phone: customerPhone,
+                productType: productType,
+                quantity: quantity,
+                price: total,
+                eventType: 'online',
+                notes: customerNotes + (customerImages.length > 0 ? ` | ${customerImages.length} photos uploaded` : ''),
+                status: 'pending',
+                paymentStatus: paymentStatus,
+                date: new Date().toLocaleDateString(),
+                images: customerImages.map(img => img.src), // Save the uploaded images
+                deliveryOption: delivery === 0 ? 'Collection' : 'UK Delivery (£2.75)'
+            };
+            
+            // Save to localStorage
+            orders.push(order);
+            localStorage.setItem('magnetMyMemoryOrders', JSON.stringify(orders));
+            
+            // Clear customer images after saving
+            setTimeout(() => {
+                customerImages = [];
+                displayCustomerPreview();
+                document.getElementById('customer-info-form').style.display = 'none';
+                document.getElementById('payment-section').style.display = 'none';
+                
+                // Reset form
+                document.getElementById('customer-name-input').value = '';
+                document.getElementById('customer-email-input').value = '';
+                document.getElementById('customer-phone-input').value = '';
+                document.getElementById('customer-notes-input').value = '';
+            }, 2000);
+        }
+        
+        function sendOrderNotification(paymentMethod) {
+            const customerName = document.getElementById('customer-name-input').value;
+            const customerEmail = document.getElementById('customer-email-input').value;
+            const customerPhone = document.getElementById('customer-phone-input').value || 'Not provided';
+            const customerNotes = document.getElementById('customer-notes-input').value || 'None';
+            const productType = document.getElementById('customer-product-type').selectedOptions[0].text;
+            const quantity = document.getElementById('customer-quantity').value;
+            const delivery = document.getElementById('customer-delivery').selectedOptions[0].text;
+            const total = document.getElementById('total-amount').textContent;
+            const numPhotos = customerImages.length;
+            
+            // Create email notification content
+            const subject = `New Order from ${customerName}`;
+            const body = `NEW ORDER NOTIFICATION
+            
+Customer Details:
+- Name: ${customerName}
+- Email: ${customerEmail}
+- Phone: ${customerPhone}
+
+Order Details:
+- Product: ${productType}
+- Quantity: ${quantity}
+- Photos Uploaded: ${numPhotos}
+- Delivery: ${delivery}
+- Total: ${total}
+- Payment Method: ${paymentMethod}
+
+Special Instructions:
+${customerNotes}
+
+Time: ${new Date().toLocaleString()}`;
+            
+            // Create mailto link for your email
+            const mailtoLink = `mailto:magnetmymemory@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Create WhatsApp notification
+            const whatsappMessage = `🎨 NEW ORDER!
+
+👤 ${customerName}
+📧 ${customerEmail}
+📱 ${customerPhone}
+
+📦 ${quantity}x ${productType}
+📸 ${numPhotos} photos uploaded
+${delivery}
+💰 ${total}
+💳 ${paymentMethod}
+
+${customerNotes ? '📝 ' + customerNotes : ''}`;
+            
+            const whatsappLink = `https://wa.me/447755414299?text=${encodeURIComponent(whatsappMessage)}`;
+            
+            // Open both notification methods
+            window.open(mailtoLink, '_blank');
+            
+            // Ask user if they want WhatsApp notification too
+            setTimeout(() => {
+                if (confirm('Order details copied! Would you also like to send this order to WhatsApp?')) {
+                    window.open(whatsappLink, '_blank');
+                }
+            }, 500);
+            
+            // Show success message
+            setTimeout(() => {
+                alert(`Thank you ${customerName}! Your order has been submitted. We'll contact you at ${customerEmail} to confirm.`);
+            }, 1000);
+        }
+        
+        function copyBankDetails() {
+            const details = `Account Name: M A Aslam
+Sort Code: 20-08-98
+Account Number: 00594482`;
+            
+            navigator.clipboard.writeText(details).then(() => {
+                alert('Bank details copied to clipboard!');
+            }).catch(() => {
+                alert('Bank Details:\nAccount Name: M A Aslam\nSort Code: 20-08-98\nAccount Number: 00594482');
+            });
         }
         
         function submitCustomerOrder() {
