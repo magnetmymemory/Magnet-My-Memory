@@ -3,99 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magnet My Memory</title>
+    <title>Magnet My Memory - Custom Photo Magnets</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        :root {
+            --primary: #D4416F;
+            --primary-light: #FF6B9D;
+            --accent: #FFB84D;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --text: #2D3142;
+            --text-light: #6C757D;
+            --success: #4CAF50;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.7;
         }
         
         nav {
-            background: white;
-            padding: 1rem 5%;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: sticky;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1.25rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
         }
         
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #D4416F;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
         }
         
         section {
-            padding: 4rem 5%;
+            padding: 6rem 5%;
             min-height: 50vh;
         }
         
         .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
             background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
-            text-align: center;
         }
         
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #1A1A2E;
-        }
-        
-        .upload-section {
-            background: #1A1A2E;
-            color: white;
-            text-align: center;
-        }
-        
-        .upload-box {
+        .hero-content {
+            flex: 1;
             max-width: 600px;
-            margin: 2rem auto;
-            padding: 3rem;
-            border: 3px dashed rgba(255,255,255,0.3);
-            border-radius: 10px;
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
         }
         
-        .upload-box:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: #D4416F;
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
         }
         
         .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: #D4416F;
+            padding: 1.1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), #C51162);
             color: white;
-            text-decoration: none;
-            border-radius: 50px;
             border: none;
+            border-radius: 50px;
+            font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            margin: 0.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 1rem;
         }
         
         .btn:hover {
-            background: #C51162;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(212, 65, 111, 0.4);
         }
         
-        #preview {
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+        
+        .pricing-card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pricing-card.featured {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            margin: 1.5rem 0;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .upload-section {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+        }
+        
+        .upload-section .section-title {
+            color: white;
+        }
+        
+        .upload-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .upload-zone {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-zone:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-light);
+        }
+        
+        #photoPreview {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 1rem;
+            margin-top: 2rem;
             max-width: 800px;
-            margin: 2rem auto;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .preview-item {
             position: relative;
             aspect-ratio: 1;
-            border-radius: 10px;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
         
         .preview-item img {
@@ -106,19 +266,19 @@
         
         .preview-item button {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #D4416F;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary);
             color: white;
             border: none;
             width: 30px;
             height: 30px;
             border-radius: 50%;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
         }
         
-        .whatsapp-btn {
+        .whatsapp-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
@@ -130,146 +290,376 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            z-index: 999;
             text-decoration: none;
             font-size: 2rem;
-            z-index: 999;
+            transition: all 0.3s;
         }
         
-        .contact-section {
-            text-align: center;
-            background: white;
+        .whatsapp-float:hover {
+            transform: scale(1.1);
         }
         
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 800px;
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .modal.active {
+            display: block;
+        }
+        
+        .modal-content {
+            max-width: 1400px;
             margin: 2rem auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
         }
         
-        .contact-card {
-            padding: 2rem;
-            background: #FFF5F7;
-            border-radius: 15px;
+        .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
         
-        .contact-card h3 {
-            margin: 1rem 0;
-            color: #1A1A2E;
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #E9ECEF;
         }
         
-        .contact-card a {
-            color: #D4416F;
-            text-decoration: none;
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+        
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
         
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        #qrDisplay {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
         footer {
-            background: #1A1A2E;
+            background: var(--dark);
             color: white;
             text-align: center;
-            padding: 2rem;
+            padding: 3rem 5%;
         }
         
         .hidden {
             display: none;
         }
+        
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo">🧲 Magnet My Memory</div>
+        <div class="logo">Magnet My Memory</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#upload">Upload</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#" onclick="openAdmin(); return false;" style="opacity: 0.3;">•</a></li>
+        </ul>
     </nav>
 
-    <section class="hero">
-        <h1>Transform Your Photos Into Magnets</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Perfect for events, gifts, and cherishing memories</p>
-        <a href="#upload" class="btn">Upload Photos</a>
-        <a href="https://wa.me/447755414299" class="btn" style="background: #25D366;">WhatsApp Us</a>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Preserve Your <span>Precious Moments</span></h1>
+            <p>Transform your favorite photos into beautiful, high-quality magnets. Perfect for events, gifts, and cherishing memories.</p>
+            <a href="#upload" class="btn">Upload Photos</a>
+            <a href="https://wa.me/447755414299" class="btn btn-secondary">Contact Us</a>
+        </div>
+    </section>
+
+    <section id="pricing" style="background: white;">
+        <h2 class="section-title">Our Products & Pricing</h2>
+        <p class="section-subtitle">High-quality photo magnets with volume discounts available</p>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Single Magnets</h3>
+                <div class="price">£4<span style="font-size: 1.2rem;">+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ 2" x 2" photo magnets</li>
+                    <li>✓ High-quality printing</li>
+                    <li>✓ Perfect for events & gifts</li>
+                    <li>✓ Bulk discounts available</li>
+                    <li style="margin-top: 1rem; font-weight: 600;">📦 UK Delivery from £2.75</li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card featured">
+                <h3>Magnet Strips</h3>
+                <div class="price">£6<span style="font-size: 1.2rem;">+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ 3 photos in one strip</li>
+                    <li>✓ Personalised message at bottom</li>
+                    <li>✓ 2" x 2" per photo section</li>
+                    <li>✓ Great for special occasions</li>
+                    <li>✓ Bulk discounts available</li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Save The Date</h3>
+                <div class="price">£5<span style="font-size: 1.2rem;">+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ Personalised flexible magnets</li>
+                    <li>✓ 4" x 6" size</li>
+                    <li>✓ Perfect for weddings & events</li>
+                    <li>✓ Custom text & design</li>
+                    <li>✓ Bulk discounts available</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: #FFF5F7; border-radius: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem;">💰 Volume Discounts Available</h3>
+            <p style="font-size: 1.1rem; color: var(--text-light);">The more you order, the more you save! Contact us for custom quotes on bulk orders.</p>
+        </div>
     </section>
 
     <section id="upload" class="upload-section">
-        <h2 style="margin-bottom: 1rem;">Upload Your Photos</h2>
-        <p style="opacity: 0.8; margin-bottom: 2rem;">Click the box below or drag and drop your images</p>
+        <h2 class="section-title">Upload Your Photos</h2>
+        <p class="section-subtitle">Drag and drop or click to select your favorite photos</p>
         
-        <div class="upload-box" id="uploadBox">
-            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">📸</div>
-            <h3>Click here or drop photos</h3>
-            <p style="opacity: 0.7;">Supports JPG, PNG</p>
+        <div class="upload-zone" id="uploadZone">
+            <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
+            <div style="font-size: 5rem; margin-bottom: 1.5rem;">📸</div>
+            <h3 style="margin-bottom: 1rem;">Drop your photos here</h3>
+            <p style="opacity: 0.7;">or click to browse</p>
         </div>
         
-        <div id="preview"></div>
+        <div id="photoPreview"></div>
         
-        <button class="btn" id="orderBtn" style="display: none;">Place Order via WhatsApp</button>
+        <button class="btn" id="orderBtn" style="display: none; margin-top: 2rem;" onclick="placeOrder()">Place Order via WhatsApp</button>
     </section>
 
-    <section id="contact" class="contact-section">
-        <h2>Get In Touch</h2>
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div style="font-size: 3rem;">📧</div>
-                <h3>Email</h3>
-                <a href="mailto:magnetmymemory@outlook.com">magnetmymemory@outlook.com</a>
+    <section id="contact" style="background: white; text-align: center;">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Have questions? We'd love to hear from you!</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto;">
+            <div style="background: #FFF5F7; padding: 2rem; border-radius: 15px;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">Email Us</h3>
+                <a href="mailto:magnetmymemory@outlook.com" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">magnetmymemory@outlook.com</a>
             </div>
-            <div class="contact-card">
-                <div style="font-size: 3rem;">💬</div>
-                <h3>WhatsApp</h3>
-                <a href="https://wa.me/447755414299">07554 14299</a>
+            
+            <div style="background: #FFF5F7; padding: 2rem; border-radius: 15px;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">WhatsApp</h3>
+                <a href="https://wa.me/447755414299" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">07554 14299</a>
             </div>
         </div>
     </section>
 
-    <a href="https://wa.me/447755414299?text=Hi!%20I%20have%20a%20question" class="whatsapp-btn">💬</a>
+    <a href="https://wa.me/447755414299?text=Hi!%20I%20have%20a%20question%20about%20Magnet%20My%20Memory" target="_blank" class="whatsapp-float">💬</a>
 
     <footer>
-        <p><strong>Magnet My Memory</strong></p>
-        <p style="opacity: 0.8; margin-top: 0.5rem;">© 2024 - Making memories stick</p>
-        <p style="margin-top: 1rem;">
-            <a href="mailto:magnetmymemory@outlook.com" style="color: white; margin: 0 1rem;">📧 Email</a>
-            <a href="https://wa.me/447755414299" style="color: white; margin: 0 1rem;">💬 WhatsApp</a>
-        </p>
+        <div style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Magnet My Memory</div>
+        <p style="opacity: 0.8; margin: 1rem 0;">Making memories stick since 2024</p>
+        <div style="margin: 2rem 0;">
+            <a href="mailto:magnetmymemory@outlook.com" style="color: white; text-decoration: none; margin: 0 1rem;">📧 Email</a>
+            <a href="https://wa.me/447755414299" style="color: white; text-decoration: none; margin: 0 1rem;">💬 WhatsApp</a>
+        </div>
+        <p style="opacity: 0.6; font-size: 0.9rem;">© 2024 Magnet My Memory. All rights reserved.</p>
     </footer>
 
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeAdmin()">×</button>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem;">Admin Dashboard</h1>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchTab('qr')">QR Generator</button>
+                <button class="admin-tab" onclick="switchTab('images')">Image Processor</button>
+                <button class="admin-tab" onclick="switchTab('orders')">Orders</button>
+            </div>
+            
+            <div id="qr-tab" class="tab-content active">
+                <h2 style="margin-bottom: 2rem;">Generate QR Code</h2>
+                <div style="max-width: 600px;">
+                    <div class="form-group">
+                        <label>Event Name</label>
+                        <input type="text" id="eventName" placeholder="e.g., Sarah's Birthday">
+                    </div>
+                    <div class="form-group">
+                        <label>Upload URL (Optional)</label>
+                        <input type="text" id="qrUrl" placeholder="https://www.magnetmymemory.com/#upload">
+                    </div>
+                    <button class="btn" onclick="generateQR()">Generate QR Code</button>
+                    
+                    <div id="qrResult" class="hidden" style="margin-top: 2rem; text-align: center;">
+                        <div id="qrDisplay"></div>
+                        <button class="btn btn-secondary" onclick="downloadQR()" style="margin-top: 1rem;">Download QR Code</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="images-tab" class="tab-content">
+                <h2 style="margin-bottom: 2rem;">Image Auto-Formatter</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                    <div class="form-group">
+                        <label>Width (inches)</label>
+                        <input type="number" id="imgWidth" value="2" step="0.1" min="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label>Height (inches)</label>
+                        <input type="number" id="imgHeight" value="2" step="0.1" min="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label>DPI</label>
+                        <select id="imgDPI">
+                            <option value="150">150 DPI</option>
+                            <option value="300" selected>300 DPI</option>
+                            <option value="600">600 DPI</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="border: 2px dashed var(--primary); padding: 3rem; text-align: center; border-radius: 10px; cursor: pointer;" id="adminUploadZone">
+                    <input type="file" id="adminFileInput" accept="image/*" multiple style="display: none;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                    <p>Click or drop images here</p>
+                </div>
+                
+                <div id="adminPreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem;"></div>
+                
+                <button class="btn" onclick="processAdminImages()" style="margin-top: 1rem;">Process & Download All</button>
+                
+                <canvas id="adminCanvas" style="display: none;"></canvas>
+            </div>
+            
+            <div id="orders-tab" class="tab-content">
+                <h2 style="margin-bottom: 2rem;">Orders</h2>
+                <p style="color: var(--text-light);">Orders will appear here when customers place orders through your website.</p>
+                <div style="background: var(--light); padding: 3rem; text-align: center; border-radius: 10px; margin-top: 2rem;">
+                    <p>💡 Tip: When customers click "Place Order", they'll message you on WhatsApp with their order details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        var images = [];
-        var uploadBox = document.getElementById('uploadBox');
+        var photos = [];
+        var adminPhotos = [];
+        
+        var uploadZone = document.getElementById('uploadZone');
         var fileInput = document.getElementById('fileInput');
-        var preview = document.getElementById('preview');
+        var preview = document.getElementById('photoPreview');
         var orderBtn = document.getElementById('orderBtn');
         
-        uploadBox.onclick = function() {
+        uploadZone.onclick = function() {
             fileInput.click();
         };
         
-        uploadBox.ondragover = function(e) {
+        uploadZone.ondragover = function(e) {
             e.preventDefault();
-            uploadBox.style.borderColor = '#D4416F';
+            uploadZone.style.borderColor = 'var(--primary-light)';
         };
         
-        uploadBox.ondragleave = function() {
-            uploadBox.style.borderColor = 'rgba(255,255,255,0.3)';
+        uploadZone.ondragleave = function() {
+            uploadZone.style.borderColor = 'rgba(255,255,255,0.3)';
         };
         
-        uploadBox.ondrop = function(e) {
+        uploadZone.ondrop = function(e) {
             e.preventDefault();
-            uploadBox.style.borderColor = 'rgba(255,255,255,0.3)';
-            processFiles(e.dataTransfer.files);
+            uploadZone.style.borderColor = 'rgba(255,255,255,0.3)';
+            handleFiles(e.dataTransfer.files);
         };
         
         fileInput.onchange = function(e) {
-            processFiles(e.target.files);
+            handleFiles(e.target.files);
         };
         
-        function processFiles(files) {
+        function handleFiles(files) {
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];
                 if (file.type.match('image.*')) {
                     var reader = new FileReader();
                     reader.onload = (function(f) {
                         return function(e) {
-                            images.push(e.target.result);
+                            photos.push(e.target.result);
                             showPreview();
                         };
                     })(file);
@@ -280,30 +670,183 @@
         
         function showPreview() {
             preview.innerHTML = '';
-            for (var i = 0; i < images.length; i++) {
+            for (var i = 0; i < photos.length; i++) {
                 var div = document.createElement('div');
                 div.className = 'preview-item';
-                div.innerHTML = '<img src="' + images[i] + '"><button onclick="removeImage(' + i + ')">×</button>';
+                var img = document.createElement('img');
+                img.src = photos[i];
+                var btn = document.createElement('button');
+                btn.textContent = '×';
+                btn.onclick = (function(index) {
+                    return function() {
+                        removePhoto(index);
+                    };
+                })(i);
+                div.appendChild(img);
+                div.appendChild(btn);
                 preview.appendChild(div);
             }
-            orderBtn.style.display = images.length > 0 ? 'inline-block' : 'none';
+            orderBtn.style.display = photos.length > 0 ? 'inline-block' : 'none';
         }
         
-        function removeImage(index) {
-            images.splice(index, 1);
+        function removePhoto(index) {
+            photos.splice(index, 1);
             showPreview();
         }
         
-        orderBtn.onclick = function() {
-            var msg = 'Hi! I would like to order ' + images.length + ' magnet(s). I have uploaded my photos.';
+        function placeOrder() {
+            var msg = 'Hi! I would like to order ' + photos.length + ' magnet(s). I have ' + photos.length + ' photos ready to send.';
             window.open('https://wa.me/447755414299?text=' + encodeURIComponent(msg));
-            alert('Great! We will contact you on WhatsApp to complete your order.\n\nPhotos uploaded: ' + images.length);
+            alert('Great! We will contact you on WhatsApp to complete your order and collect your photos.\n\nPhotos ready: ' + photos.length);
+        }
+        
+        function openAdmin() {
+            var pass = prompt('Enter admin password:');
+            if (pass === 'MagnetAdmin2024!') {
+                document.getElementById('adminModal').classList.add('active');
+            } else if (pass !== null) {
+                alert('Incorrect password');
+            }
+        }
+        
+        function closeAdmin() {
+            document.getElementById('adminModal').classList.remove('active');
+        }
+        
+        function switchTab(tab) {
+            var tabs = document.querySelectorAll('.admin-tab');
+            var contents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(function(t) {
+                t.classList.remove('active');
+            });
+            contents.forEach(function(c) {
+                c.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(tab + '-tab').classList.add('active');
+        }
+        
+        function generateQR() {
+            var eventName = document.getElementById('eventName').value;
+            var url = document.getElementById('qrUrl').value || 'https://www.magnetmymemory.com/#upload';
+            
+            if (!eventName) {
+                alert('Please enter an event name');
+                return;
+            }
+            
+            var qrData = url + '?event=' + encodeURIComponent(eventName);
+            var qrDisplay = document.getElementById('qrDisplay');
+            qrDisplay.innerHTML = '';
+            
+            new QRCode(qrDisplay, {
+                text: qrData,
+                width: 256,
+                height: 256
+            });
+            
+            document.getElementById('qrResult').classList.remove('hidden');
+        }
+        
+        function downloadQR() {
+            var canvas = document.querySelector('#qrDisplay canvas');
+            var link = document.createElement('a');
+            link.download = 'qr-code.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        var adminUploadZone = document.getElementById('adminUploadZone');
+        var adminFileInput = document.getElementById('adminFileInput');
+        
+        adminUploadZone.onclick = function() {
+            adminFileInput.click();
         };
+        
+        adminFileInput.onchange = function(e) {
+            handleAdminFiles(e.target.files);
+        };
+        
+        function handleAdminFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (file.type.match('image.*')) {
+                    var reader = new FileReader();
+                    reader.onload = (function(f) {
+                        return function(e) {
+                            adminPhotos.push(e.target.result);
+                            showAdminPreview();
+                        };
+                    })(file);
+                    reader.readAsDataURL(file);
+                }
+            }
+        }
+        
+        function showAdminPreview() {
+            var preview = document.getElementById('adminPreview');
+            preview.innerHTML = '';
+            for (var i = 0; i < adminPhotos.length; i++) {
+                var div = document.createElement('div');
+                div.style.cssText = 'position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 2px solid #E9ECEF;';
+                var img = document.createElement('img');
+                img.src = adminPhotos[i];
+                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                div.appendChild(img);
+                preview.appendChild(div);
+            }
+        }
+        
+        function processAdminImages() {
+            if (adminPhotos.length === 0) {
+                alert('Please upload images first');
+                return;
+            }
+            
+            var width = parseFloat(document.getElementById('imgWidth').value);
+            var height = parseFloat(document.getElementById('imgHeight').value);
+            var dpi = parseInt(document.getElementById('imgDPI').value);
+            
+            var canvas = document.getElementById('adminCanvas');
+            var ctx = canvas.getContext('2d');
+            
+            canvas.width = width * dpi;
+            canvas.height = height * dpi;
+            
+            for (var i = 0; i < adminPhotos.length; i++) {
+                (function(index, imgSrc) {
+                    var img = new Image();
+                    img.onload = function() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                        var x = (canvas.width / 2) - (img.width / 2) * scale;
+                        var y = (canvas.height / 2) - (img.height / 2) * scale;
+                        
+                        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                        
+                        setTimeout(function() {
+                            var link = document.createElement('a');
+                            link.download = 'magnet_' + width + 'x' + height + '_' + (index + 1) + '.png';
+                            link.href = canvas.toDataURL('image/png');
+                            link.click();
+                        }, 100 * index);
+                    };
+                    img.src = imgSrc;
+                })(i, adminPhotos[i]);
+            }
+            
+            alert('Processing ' + adminPhotos.length + ' images...');
+        }
         
         document.querySelectorAll('a[href^="#"]').forEach(function(link) {
             link.onclick = function(e) {
+                var href = this.getAttribute('href');
+                if (href === '#') return;
                 e.preventDefault();
-                var target = document.querySelector(this.getAttribute('href'));
+                var target = document.querySelector(href);
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
