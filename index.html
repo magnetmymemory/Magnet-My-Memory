@@ -818,7 +818,7 @@
             <li><a href="#upload">Upload</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <button class="admin-btn" onclick="toggleAdmin()">Admin Dashboard</button>
+        <!-- Admin button removed - access via /admin URL -->
     </nav>
 
     <!-- Hero Section -->
@@ -1256,11 +1256,43 @@
     </div>
 
     <script>
-        // Admin Panel Toggle
+        // Admin password protection
+        const ADMIN_PASSWORD = "MagnetAdmin2024!"; // Change this to your own password
+        let isAdminAuthenticated = false;
+        
+        // Admin Panel Toggle with password
         function toggleAdmin() {
-            document.getElementById('admin-panel').classList.toggle('active');
-            updateAdminStats();
+            const adminPanel = document.getElementById('admin-panel');
+            
+            if (adminPanel.classList.contains('active')) {
+                // Close admin panel
+                adminPanel.classList.remove('active');
+                isAdminAuthenticated = false;
+            } else {
+                // Request password
+                if (!isAdminAuthenticated) {
+                    const password = prompt('Enter admin password:');
+                    if (password === ADMIN_PASSWORD) {
+                        isAdminAuthenticated = true;
+                        adminPanel.classList.add('active');
+                        updateAdminStats();
+                    } else if (password !== null) {
+                        alert('Incorrect password');
+                    }
+                } else {
+                    adminPanel.classList.add('active');
+                    updateAdminStats();
+                }
+            }
         }
+        
+        // Check for secret admin URL access
+        window.addEventListener('load', function() {
+            const hash = window.location.hash;
+            if (hash === '#admin' || hash === '#admin-panel') {
+                toggleAdmin();
+            }
+        });
         
         // Admin Tabs
         document.querySelectorAll('.admin-tab').forEach(tab => {
