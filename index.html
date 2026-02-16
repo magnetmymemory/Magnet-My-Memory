@@ -1458,13 +1458,19 @@
             }
         }
         
-        // Check for secret admin URL access
-        window.addEventListener('load', function() {
+        // Check for secret admin URL access - runs on page load and hash change
+        function checkAdminAccess() {
             const hash = window.location.hash;
             if (hash === '#admin' || hash === '#admin-panel') {
                 toggleAdmin();
             }
-        });
+        }
+        
+        // Run when page loads
+        window.addEventListener('load', checkAdminAccess);
+        
+        // Run when URL hash changes
+        window.addEventListener('hashchange', checkAdminAccess);
         
         // Admin Tabs
         document.querySelectorAll('.admin-tab').forEach(tab => {
