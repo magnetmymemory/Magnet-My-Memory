@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnet My Memory - Custom Photo Magnets for Every Occasion</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #D4416F;
+            --primary-light: #FF6B9D;
+            --accent: #FFB84D;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --text: #2D3142;
+            --text-light: #6C757D;
+            --success: #4CAF50;
+            --gradient: linear-gradient(135deg, #D4416F 0%, #FF6B9D 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 1.25rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .admin-btn {
+            padding: 0.7rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 65, 111, 0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+            padding: 3rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(212, 65, 111, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        .hero h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            padding: 1.1rem 2.5rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(212, 65, 111, 0.4);
+        }
+        
+        .btn-secondary {
+            padding: 1.1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        .magnet-showcase {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            transform: rotate(-5deg);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(-5deg); }
+        }
+        
+        .magnet-card {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .magnet-card:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: white;
+        }
+        
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: var(--light);
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+        
+        .feature-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+        
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .step p {
+            color: var(--text-light);
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 6rem 5%;
+            background: white;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pricing-card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .pricing-card.featured {
+            background: var(--gradient);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured * {
+            color: white;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .pricing-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            margin: 1.5rem 0;
+        }
+        
+        .price span {
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .pricing-card.featured .pricing-features li {
+            border-bottom-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Upload Section */
+        .upload-section {
+            padding: 6rem 5%;
+            background: var(--dark);
+            color: white;
+            text-align: center;
+        }
+        
+        .upload-section .section-title {
+            color: white;
+        }
+        
+        .upload-section .section-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .upload-zone {
+            max-width: 800px;
+            margin: 3rem auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-zone:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-light);
+        }
+        
+        .upload-zone.dragover {
+            background: rgba(212, 65, 111, 0.2);
+            border-color: var(--primary-light);
+        }
+        
+        .upload-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        #customer-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .customer-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .customer-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .customer-preview-item .remove {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.2s ease;
+        }
+        
+        .customer-preview-item .remove:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 6rem 5%;
+            background: white;
+        }
+        
+        .contact-content {
+            max-width: 600px;
+            margin: 3rem auto;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E9ECEF;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        /* Admin Dashboard */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+        
+        .admin-panel.active {
+            display: block;
+        }
+        
+        .admin-content {
+            max-width: 1400px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+        }
+        
+        .close-admin {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .close-admin:hover {
+            transform: rotate(90deg);
+        }
+        
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #E9ECEF;
+            padding-bottom: 1rem;
+        }
+        
+        .admin-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .admin-tab.active {
+            color: var(--primary);
+        }
+        
+        .admin-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+        }
+        
+        .admin-tab-content {
+            display: none;
+        }
+        
+        .admin-tab-content.active {
+            display: block;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .admin-card {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th,
+        table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #E9ECEF;
+        }
+        
+        table th {
+            background: white;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        table tr:hover {
+            background: rgba(212, 65, 111, 0.05);
+        }
+        
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #FFF3CD;
+            color: #856404;
+        }
+        
+        .status-processing {
+            background: #CCE5FF;
+            color: #004085;
+        }
+        
+        .status-completed {
+            background: #D4EDDA;
+            color: #155724;
+        }
+        
+        #qr-display {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-image {
+                margin-top: 3rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .magnet-showcase {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Magnet My Memory</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#upload">Upload</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="admin-btn" onclick="toggleAdmin()">Admin Dashboard</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Preserve Your <span>Precious Moments</span> Forever</h1>
+            <p>Transform your favorite photos into beautiful, high-quality magnets. Perfect for events, gifts, and cherishing memories that stick around.</p>
+            <div class="cta-buttons">
+                <a href="#upload" class="btn-primary">Upload Photos</a>
+                <a href="#how-it-works" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="magnet-showcase">
+                <div class="magnet-card">📸</div>
+                <div class="magnet-card">🎉</div>
+                <div class="magnet-card">💕</div>
+                <div class="magnet-card">🎂</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <p class="section-subtitle">We make creating custom magnets simple, fast, and beautiful</p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📐</div>
+                <h3>Multiple Sizes</h3>
+                <p>2" x 2" for single magnets and strips, 4" x 6" for personalised Save The Date magnets.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Professional Quality</h3>
+                <p>High-resolution printing at 300 DPI ensures your memories look stunning and vibrant.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <h3>Three Product Types</h3>
+                <p>Single magnets, 3-photo strips with messages, or Save The Date designs - perfect for any occasion.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Volume Discounts</h3>
+                <p>The more you order, the more you save! Great for weddings, parties, and corporate events.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>UK & Worldwide Shipping</h3>
+                <p>UK delivery from just £2.75. Overseas shipping calculated at checkout.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Quick Turnaround</h3>
+                <p>Fast processing and printing to get your magnets to you when you need them.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Three simple steps to create your custom magnets</p>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Upload Photos</h3>
+                <p>Guests scan QR code or you upload photos directly through our platform.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Auto-Format</h3>
+                <p>Our system automatically formats images to your specifications - no manual editing needed.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Print & Deliver</h3>
+                <p>Generate print-ready layouts and create beautiful magnets for your customers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing">
+        <h2 class="section-title">Our Products & Pricing</h2>
+        <p class="section-subtitle">High-quality photo magnets with volume discounts available</p>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Single Magnets</h3>
+                <div class="price">£4<span>+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ 2" x 2" photo magnets</li>
+                    <li>✓ High-quality printing</li>
+                    <li>✓ Perfect for events & gifts</li>
+                    <li>✓ Bulk discounts available</li>
+                    <li style="margin-top: 1rem; font-weight: 600;">📦 UK Delivery from £2.75</li>
+                    <li>🌍 Overseas shipping calculated at checkout</li>
+                </ul>
+                <button class="btn-primary" onclick="document.getElementById('upload').scrollIntoView({behavior: 'smooth'})">Order Now</button>
+            </div>
+            
+            <div class="pricing-card featured">
+                <h3>Magnet Strips</h3>
+                <div class="price">£6<span>+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ 3 photos in one strip</li>
+                    <li>✓ Personalised message at bottom</li>
+                    <li>✓ 2" x 2" per photo section</li>
+                    <li>✓ Great for special occasions</li>
+                    <li>✓ Bulk discounts available</li>
+                    <li style="margin-top: 1rem; font-weight: 600;">📦 UK Delivery from £2.75</li>
+                </ul>
+                <button class="btn-primary" onclick="document.getElementById('upload').scrollIntoView({behavior: 'smooth'})">Order Now</button>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Save The Date</h3>
+                <div class="price">£5<span>+</span></div>
+                <ul class="pricing-features">
+                    <li>✓ Personalised flexible magnets</li>
+                    <li>✓ 4" x 6" size</li>
+                    <li>✓ Perfect for weddings & events</li>
+                    <li>✓ Custom text & design</li>
+                    <li>✓ Bulk discounts available</li>
+                    <li style="margin-top: 1rem; font-weight: 600;">📦 UK Delivery from £2.75</li>
+                </ul>
+                <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get Quote</button>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%); border-radius: 20px;">
+            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem;">💰 Volume Discounts Available</h3>
+            <p style="font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+                The more you order, the more you save! Contact us for custom quotes on bulk orders.
+            </p>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="upload-section">
+        <h2 class="section-title">Upload Your Photos</h2>
+        <p class="section-subtitle">Drag and drop or click to select your favorite photos</p>
+        
+        <div class="upload-zone" id="customer-upload-zone">
+            <input type="file" id="customer-upload" accept="image/*" multiple style="display: none;">
+            <div class="upload-icon">📸</div>
+            <h3 style="margin-bottom: 1rem;">Drop your photos here</h3>
+            <p style="opacity: 0.7;">or click to browse</p>
+        </div>
+        
+        <div id="customer-preview"></div>
+        
+        <div style="margin-top: 2rem;">
+            <button class="btn-primary" onclick="submitCustomerOrder()" id="submit-order-btn" style="display: none;">Submit Order</button>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <p class="section-subtitle">Have questions? We'd love to hear from you!</p>
+        
+        <div style="max-width: 800px; margin: 0 auto 3rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                <div style="background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%); padding: 2rem; border-radius: 15px;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+                    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">Email Us</h3>
+                    <a href="mailto:magnetmymemory@outlook.com" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+                        magnetmymemory@outlook.com
+                    </a>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%); padding: 2rem; border-radius: 15px;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
+                    <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">WhatsApp</h3>
+                    <a href="https://wa.me/447755414299" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">
+                        07554 14299
+                    </a>
+                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.5rem;">Click to message us!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-content">
+            <h3 style="text-align: center; font-family: 'Playfair Display', serif; margin-bottom: 1.5rem;">Or Send Us a Message</h3>
+            <form onsubmit="handleContact(event)">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Magnet My Memory</div>
+            <p style="margin: 1rem 0; opacity: 0.8;">Making memories stick since 2024</p>
+            
+            <div style="margin: 2rem 0; display: flex; flex-direction: column; gap: 0.75rem; align-items: center;">
+                <a href="mailto:magnetmymemory@outlook.com" style="color: white; text-decoration: none; font-size: 1.1rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='white'">
+                    📧 magnetmymemory@outlook.com
+                </a>
+                <a href="https://wa.me/447755414299" target="_blank" style="color: white; text-decoration: none; font-size: 1.1rem; transition: color 0.3s ease;" onmouseover="this.style.color='var(--primary-light)'" onmouseout="this.style.color='white'">
+                    💬 WhatsApp: 07554 14299
+                </a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#">📘</a>
+                <a href="#">📷</a>
+                <a href="#">🐦</a>
+            </div>
+            <p style="opacity: 0.6; font-size: 0.9rem;">© 2024 Magnet My Memory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-content">
+            <button class="close-admin" onclick="toggleAdmin()">×</button>
+            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem;">Admin Dashboard</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="admin-total-orders">0</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="admin-pending">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="admin-completed">0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="admin-revenue">£0</div>
+                    <div class="stat-label">Revenue</div>
+                </div>
+            </div>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-admin-tab="qr">QR Generator</button>
+                <button class="admin-tab" data-admin-tab="processor">Image Processor</button>
+                <button class="admin-tab" data-admin-tab="layouts">Print Layouts</button>
+                <button class="admin-tab" data-admin-tab="orders">Orders</button>
+            </div>
+            
+            <!-- QR Generator -->
+            <div id="admin-qr" class="admin-tab-content active">
+                <div class="admin-card">
+                    <h3>Generate QR Code</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label>Event Name</label>
+                            <input type="text" id="admin-event-name" placeholder="e.g., Sarah's Birthday">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload URL</label>
+                            <input type="text" id="admin-upload-url" placeholder="e.g., yourwebsite.com/upload">
+                            <small style="color: var(--text-light); font-size: 0.85rem; margin-top: 0.25rem; display: block;">Leave empty to use default upload page</small>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="adminGenerateQR()">Generate QR Code</button>
+                    
+                    <div id="qr-result" class="hidden" style="margin-top: 2rem; text-align: center;">
+                        <div id="qr-display"></div>
+                        <button class="btn-secondary" onclick="downloadQR()" style="margin-top: 1rem;">Download QR Code</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Image Processor -->
+            <div id="admin-processor" class="admin-tab-content">
+                <div class="admin-card">
+                    <h3>Image Auto-Formatter</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label>Width (inches)</label>
+                            <input type="number" id="admin-width" value="2" step="0.1" min="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>Height (inches)</label>
+                            <input type="number" id="admin-height" value="2" step="0.1" min="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label>DPI</label>
+                            <select id="admin-dpi">
+                                <option value="150">150 DPI</option>
+                                <option value="300" selected>300 DPI</option>
+                                <option value="600">600 DPI</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-zone" id="admin-upload-zone" style="background: white; border-color: var(--primary);">
+                        <input type="file" id="admin-image-upload" accept="image/*" multiple style="display: none;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                        <div style="font-size: 1.2rem; margin-bottom: 0.5rem;">Drop images or click to upload</div>
+                        <div style="color: var(--text-light);">Supports JPG, PNG</div>
+                    </div>
+                    
+                    <div id="admin-preview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;"></div>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <button class="btn-primary" onclick="adminProcessImages()">Process Images</button>
+                        <button class="btn-secondary" onclick="adminDownloadAll()" id="admin-download-btn" style="display: none; margin-left: 1rem;">Download All</button>
+                    </div>
+                    
+                    <canvas id="admin-canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+            
+            <!-- Print Layouts -->
+            <div id="admin-layouts" class="admin-tab-content">
+                <div class="admin-card">
+                    <h3>Print-Ready Layouts</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="form-group">
+                            <label>Paper Size</label>
+                            <select id="admin-paper">
+                                <option value="letter">Letter (8.5" x 11")</option>
+                                <option value="a4">A4</option>
+                                <option value="legal">Legal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Per Row</label>
+                            <input type="number" id="admin-per-row" value="3" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Per Column</label>
+                            <input type="number" id="admin-per-col" value="4" min="1" max="10">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary" onclick="adminGenerateLayout()">Generate Layout</button>
+                    <button class="btn-secondary" onclick="window.print()" style="margin-left: 1rem;">Print</button>
+                    
+                    <div id="admin-layout-preview" style="display: none; margin-top: 2rem; background: white; padding: 1rem; border-radius: 10px;"></div>
+                </div>
+            </div>
+            
+            <!-- Orders -->
+            <div id="admin-orders" class="admin-tab-content">
+                <div class="admin-card">
+                    <h3>Order Management</h3>
+                    <button class="btn-primary" onclick="showAdminOrderForm()">+ New Order</button>
+                    
+                    <div id="admin-order-form" class="hidden" style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid #E9ECEF;">
+                        <h4 style="margin-bottom: 1rem;">Create New Order</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="admin-customer-name">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="admin-customer-email">
+                            </div>
+                            <div class="form-group">
+                                <label>Product Type</label>
+                                <select id="admin-product-type">
+                                    <option value="single">Single Magnet (2"x2")</option>
+                                    <option value="strip">Magnet Strip - 3 photos (2"x2" each)</option>
+                                    <option value="savedate">Save The Date (4"x6")</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" id="admin-quantity" value="1" min="1">
+                            </div>
+                            <div class="form-group">
+                                <label>Price (£)</label>
+                                <input type="number" id="admin-price" value="4" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Event Type</label>
+                                <select id="admin-event-type">
+                                    <option value="live">Live Event</option>
+                                    <option value="online">Online Order</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <textarea id="admin-notes" rows="3"></textarea>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn-primary" onclick="adminSaveOrder()">Save Order</button>
+                            <button class="btn-secondary" onclick="cancelAdminOrder()" style="margin-left: 1rem;">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <table style="margin-top: 2rem;">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Event</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-orders-tbody">
+                            <tr>
+                                <td colspan="9" style="text-align: center; padding: 3rem; color: var(--text-light);">
+                                    No orders yet
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin Panel Toggle
+        function toggleAdmin() {
+            document.getElementById('admin-panel').classList.toggle('active');
+            updateAdminStats();
+        }
+        
+        // Admin Tabs
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.adminTab;
+                
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById('admin-' + tabName).classList.add('active');
+            });
+        });
+        
+        // QR Code Generation
+        function adminGenerateQR() {
+            const eventName = document.getElementById('admin-event-name').value;
+            let uploadUrl = document.getElementById('admin-upload-url').value;
+            
+            if (!eventName) {
+                alert('Please enter an event name');
+                return;
+            }
+            
+            // If no URL provided, use a default placeholder
+            if (!uploadUrl) {
+                uploadUrl = 'https://magnetmymemory.com/upload';
+            }
+            
+            // Ensure URL has proper protocol
+            if (!uploadUrl.startsWith('http://') && !uploadUrl.startsWith('https://')) {
+                uploadUrl = 'https://' + uploadUrl;
+            }
+            
+            // Create the full URL with event parameter
+            const qrData = `${uploadUrl}?event=${encodeURIComponent(eventName)}`;
+            
+            const qrDisplay = document.getElementById('qr-display');
+            qrDisplay.innerHTML = '';
+            
+            new QRCode(qrDisplay, {
+                text: qrData,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Show the URL being used
+            const urlInfo = document.createElement('div');
+            urlInfo.style.cssText = 'margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 10px; word-break: break-all;';
+            urlInfo.innerHTML = `<strong>QR Code URL:</strong><br>${qrData}`;
+            qrDisplay.appendChild(urlInfo);
+            
+            document.getElementById('qr-result').classList.remove('hidden');
+        }
+        
+        function downloadQR() {
+            const canvas = document.querySelector('#qr-display canvas');
+            const link = document.createElement('a');
+            link.download = 'magnet-my-memory-qr.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Admin Image Upload
+        let adminImages = [];
+        
+        const adminUploadZone = document.getElementById('admin-upload-zone');
+        const adminImageUpload = document.getElementById('admin-image-upload');
+        
+        adminUploadZone.addEventListener('click', () => adminImageUpload.click());
+        
+        adminUploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            adminUploadZone.style.background = 'rgba(212, 65, 111, 0.1)';
+        });
+        
+        adminUploadZone.addEventListener('dragleave', () => {
+            adminUploadZone.style.background = 'white';
+        });
+        
+        adminUploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            adminUploadZone.style.background = 'white';
+            handleAdminFiles(e.dataTransfer.files);
+        });
+        
+        adminImageUpload.addEventListener('change', (e) => {
+            handleAdminFiles(e.target.files);
+        });
+        
+        function handleAdminFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        adminImages.push({
+                            src: e.target.result,
+                            name: file.name
+                        });
+                        displayAdminPreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function displayAdminPreview() {
+            const preview = document.getElementById('admin-preview');
+            preview.innerHTML = '';
+            
+            adminImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 10px; border: 2px solid #E9ECEF;';
+                div.innerHTML = `
+                    <img src="${img.src}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <button onclick="removeAdminImage(${index})" style="position: absolute; top: 0.5rem; right: 0.5rem; background: var(--primary); color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer;">×</button>
+                `;
+                preview.appendChild(div);
+            });
+        }
+        
+        function removeAdminImage(index) {
+            adminImages.splice(index, 1);
+            displayAdminPreview();
+        }
+        
+        function adminProcessImages() {
+            if (adminImages.length === 0) {
+                alert('Please upload images first');
+                return;
+            }
+            
+            const width = parseFloat(document.getElementById('admin-width').value);
+            const height = parseFloat(document.getElementById('admin-height').value);
+            const dpi = parseInt(document.getElementById('admin-dpi').value);
+            
+            const canvas = document.getElementById('admin-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = width * dpi;
+            canvas.height = height * dpi;
+            
+            adminImages.forEach((imgData, index) => {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
+                    const x = (canvas.width / 2) - (img.width / 2) * scale;
+                    const y = (canvas.height / 2) - (img.height / 2) * scale;
+                    
+                    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                    
+                    setTimeout(() => {
+                        const link = document.createElement('a');
+                        link.download = `magnet_${width}x${height}_${index + 1}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                    }, 100 * index);
+                };
+                img.src = imgData.src;
+            });
+            
+            document.getElementById('admin-download-btn').style.display = 'inline-block';
+            alert(`Processing ${adminImages.length} images...`);
+        }
+        
+        function adminDownloadAll() {
+            adminProcessImages();
+        }
+        
+        // Print Layout
+        function adminGenerateLayout() {
+            const perRow = parseInt(document.getElementById('admin-per-row').value);
+            const perCol = parseInt(document.getElementById('admin-per-col').value);
+            const width = parseFloat(document.getElementById('admin-width').value);
+            const height = parseFloat(document.getElementById('admin-height').value);
+            
+            const preview = document.getElementById('admin-layout-preview');
+            preview.innerHTML = '';
+            preview.style.display = 'block';
+            
+            const grid = document.createElement('div');
+            grid.style.cssText = `display: grid; grid-template-columns: repeat(${perRow}, ${width}in); gap: 0.25in; justify-content: center;`;
+            
+            const total = perRow * perCol;
+            for (let i = 0; i < total; i++) {
+                const item = document.createElement('div');
+                item.style.cssText = `width: ${width}in; height: ${height}in; border: 1px dashed #ccc; overflow: hidden;`;
+                
+                if (adminImages[i % adminImages.length]) {
+                    const img = document.createElement('img');
+                    img.src = adminImages[i % adminImages.length].src;
+                    img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
+                    item.appendChild(img);
+                } else {
+                    item.style.background = '#f0f0f0';
+                    item.innerHTML = `<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999;">Magnet ${i + 1}</div>`;
+                }
+                
+                grid.appendChild(item);
+            }
+            
+            preview.appendChild(grid);
+        }
+        
+        // Order Management
+        let orders = JSON.parse(localStorage.getItem('magnetMyMemoryOrders') || '[]');
+        
+        function showAdminOrderForm() {
+            document.getElementById('admin-order-form').classList.remove('hidden');
+        }
+        
+        function cancelAdminOrder() {
+            document.getElementById('admin-order-form').classList.add('hidden');
+        }
+        
+        function adminSaveOrder() {
+            const order = {
+                id: 'MMM-' + Date.now(),
+                customerName: document.getElementById('admin-customer-name').value,
+                email: document.getElementById('admin-customer-email').value,
+                productType: document.getElementById('admin-product-type').value,
+                quantity: parseInt(document.getElementById('admin-quantity').value),
+                price: parseFloat(document.getElementById('admin-price').value),
+                eventType: document.getElementById('admin-event-type').value,
+                notes: document.getElementById('admin-notes').value,
+                status: 'pending',
+                date: new Date().toLocaleDateString()
+            };
+            
+            if (!order.customerName || !order.email) {
+                alert('Please fill in customer name and email');
+                return;
+            }
+            
+            orders.push(order);
+            localStorage.setItem('magnetMyMemoryOrders', JSON.stringify(orders));
+            
+            cancelAdminOrder();
+            displayAdminOrders();
+            updateAdminStats();
+            
+            // Clear form
+            document.getElementById('admin-customer-name').value = '';
+            document.getElementById('admin-customer-email').value = '';
+            document.getElementById('admin-quantity').value = '1';
+            document.getElementById('admin-price').value = '4';
+            document.getElementById('admin-notes').value = '';
+        }
+        
+        function displayAdminOrders() {
+            const tbody = document.getElementById('admin-orders-tbody');
+            
+            if (orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 3rem; color: var(--text-light);">No orders yet</td></tr>';
+                return;
+            }
+            
+            const productNames = {
+                'single': 'Single 2"x2"',
+                'strip': '3-Photo Strip (2"x2")',
+                'savedate': 'Save The Date (4"x6")'
+            };
+            
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td><strong>${order.id}</strong></td>
+                    <td>${order.customerName}</td>
+                    <td>${productNames[order.productType] || order.productType || 'Single 2"x2"'}</td>
+                    <td style="text-transform: capitalize;">${order.eventType}</td>
+                    <td>${order.quantity}</td>
+                    <td>£${order.price.toFixed(2)}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${order.date}</td>
+                    <td>
+                        <button class="btn-primary" onclick="updateAdminOrderStatus('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Update</button>
+                        <button class="btn-secondary" onclick="deleteAdminOrder('${order.id}')" style="padding: 0.5rem 1rem; font-size: 0.85rem; margin-left: 0.5rem;">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function updateAdminOrderStatus(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const statuses = ['pending', 'processing', 'completed'];
+            const currentIndex = statuses.indexOf(order.status);
+            order.status = statuses[(currentIndex + 1) % statuses.length];
+            
+            localStorage.setItem('magnetMyMemoryOrders', JSON.stringify(orders));
+            displayAdminOrders();
+            updateAdminStats();
+        }
+        
+        function deleteAdminOrder(orderId) {
+            if (!confirm('Delete this order?')) return;
+            
+            orders = orders.filter(o => o.id !== orderId);
+            localStorage.setItem('magnetMyMemoryOrders', JSON.stringify(orders));
+            displayAdminOrders();
+            updateAdminStats();
+        }
+        
+        function updateAdminStats() {
+            document.getElementById('admin-total-orders').textContent = orders.length;
+            document.getElementById('admin-pending').textContent = orders.filter(o => o.status === 'pending').length;
+            document.getElementById('admin-completed').textContent = orders.filter(o => o.status === 'completed').length;
+            
+            const revenue = orders.reduce((sum, o) => sum + (o.price * o.quantity), 0);
+            document.getElementById('admin-revenue').textContent = '£' + revenue.toFixed(2);
+        }
+        
+        // Customer Upload Section
+        let customerImages = [];
+        
+        const customerUploadZone = document.getElementById('customer-upload-zone');
+        const customerUpload = document.getElementById('customer-upload');
+        
+        customerUploadZone.addEventListener('click', () => customerUpload.click());
+        
+        customerUploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            customerUploadZone.classList.add('dragover');
+        });
+        
+        customerUploadZone.addEventListener('dragleave', () => {
+            customerUploadZone.classList.remove('dragover');
+        });
+        
+        customerUploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            customerUploadZone.classList.remove('dragover');
+            handleCustomerFiles(e.dataTransfer.files);
+        });
+        
+        customerUpload.addEventListener('change', (e) => {
+            handleCustomerFiles(e.target.files);
+        });
+        
+        function handleCustomerFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        customerImages.push({
+                            src: e.target.result,
+                            name: file.name
+                        });
+                        displayCustomerPreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+        
+        function displayCustomerPreview() {
+            const preview = document.getElementById('customer-preview');
+            preview.innerHTML = '';
+            
+            customerImages.forEach((img, index) => {
+                const div = document.createElement('div');
+                div.className = 'customer-preview-item';
+                div.innerHTML = `
+                    <img src="${img.src}">
+                    <button class="remove" onclick="removeCustomerImage(${index})">×</button>
+                `;
+                preview.appendChild(div);
+            });
+            
+            document.getElementById('submit-order-btn').style.display = customerImages.length > 0 ? 'inline-block' : 'none';
+        }
+        
+        function removeCustomerImage(index) {
+            customerImages.splice(index, 1);
+            displayCustomerPreview();
+        }
+        
+        function submitCustomerOrder() {
+            if (customerImages.length === 0) {
+                alert('Please upload at least one photo');
+                return;
+            }
+            
+            alert(`Thank you! Your order with ${customerImages.length} photo(s) has been submitted. We'll contact you shortly!`);
+            customerImages = [];
+            displayCustomerPreview();
+        }
+        
+        // Contact Form
+        function handleContact(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            e.target.reset();
+        }
+        
+        // Initialize
+        displayAdminOrders();
+        updateAdminStats();
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
