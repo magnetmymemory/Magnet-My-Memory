@@ -932,7 +932,7 @@
         <li><a href="#how">How It Works</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#upload" class="nav-cta">Upload Photos</a>
+    <a href="#upload" class="nav-cta">Order Now</a>
 </nav>
 
 <!-- HERO -->
@@ -942,7 +942,7 @@
         <h1>Your Memories <em>Deserve</em> to Stick Around</h1>
         <p>Turn your favourite photos into stunning, premium-quality magnets. Perfect for weddings, birthdays, parties, and gifts that truly last.</p>
         <div class="hero-buttons">
-            <a href="#upload" class="btn-rose">Upload Your Photos</a>
+            <a href="#upload" class="btn-rose">Order Now</a>
             <a href="#products" class="btn-outline">View Products</a>
         </div>
         <div class="hero-trust">
@@ -1094,25 +1094,53 @@
     </div>
 </section>
 
-<!-- UPLOAD -->
+<!-- ORDER VIA WHATSAPP -->
 <section id="upload" class="upload-section">
-    <span class="section-tag">Start Your Order</span>
-    <h2 class="heading">Upload Your <em>Photos</em></h2>
-    <p class="subheading">Drag and drop or click to select your favourite photos. We'll take care of the rest!</p>
+    <span class="section-tag">Place Your Order</span>
+    <h2 class="heading">Order in <em>3 Simple Steps</em></h2>
+    <p class="subheading">No complicated forms — just WhatsApp us your photos and we'll handle the rest!</p>
 
-    <div class="upload-box" id="uploadBox">
-        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
-        <div class="upload-icon-wrap">📸</div>
-        <h3>Drop your photos here</h3>
-        <p>or click to browse your files</p>
-        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.5;">Supports JPG, PNG • Multiple files welcome</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; max-width: 900px; margin: 3rem auto;">
+        <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 2.5rem; text-align: center;">
+            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--rose), var(--rose-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: white; margin: 0 auto 1.5rem; box-shadow: 0 8px 25px rgba(200,68,90,0.4);">1</div>
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; margin-bottom: 0.75rem;">Choose Your Product</h3>
+            <p style="color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.95rem;">Decide which magnet you'd like — Single (£4), Strip (£6) or Save The Date (£5)</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 2.5rem; text-align: center;">
+            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--rose), var(--rose-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: white; margin: 0 auto 1.5rem; box-shadow: 0 8px 25px rgba(200,68,90,0.4);">2</div>
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; margin-bottom: 0.75rem;">WhatsApp Your Photos</h3>
+            <p style="color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.95rem;">Send your photos and tell us your product choice, quantity and delivery address</p>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 2.5rem; text-align: center;">
+            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--rose), var(--rose-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: white; margin: 0 auto 1.5rem; box-shadow: 0 8px 25px rgba(200,68,90,0.4);">3</div>
+            <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: white; margin-bottom: 0.75rem;">We Print & Deliver!</h3>
+            <p style="color: rgba(255,255,255,0.65); line-height: 1.8; font-size: 0.95rem;">We confirm your order, process payment and get your magnets delivered to your door!</p>
+        </div>
     </div>
 
-    <div id="photoGrid" class="photo-grid"></div>
+    <div style="margin-top: 3rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem;">
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; font-weight: 600;">Choose how to send your order:</p>
+        
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;">
+            <!-- WhatsApp Option -->
+            <a href="https://wa.me/447554147299?text=Hi!%20I%27d%20like%20to%20place%20an%20order%20for%20some%20photo%20magnets%20please%20%F0%9F%A7%B2" target="_blank" style="background: #25D366; color: white; padding: 1.3rem 2.5rem; border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 30px rgba(37,211,102,0.4); transition: all 0.3s;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 40px rgba(37,211,102,0.5)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 30px rgba(37,211,102,0.4)'">
+                <svg width="28" height="28" viewBox="0 0 32 32" fill="white"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.747 5.584 2.165 8.006L.051 31.682l7.883-2.068A15.935 15.935 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.133 22.569c-.344.968-2.017 1.779-3.296 2.011-.875.155-2.012.278-5.84-1.252-4.899-1.958-8.067-6.891-8.31-7.209-.235-.318-1.99-2.648-1.99-5.051 0-2.404 1.259-3.584 1.705-4.074.446-.49 1.227-.613 1.637-.613.203 0 .385.009.554.016.446.018.669.042 1.042.809.447 1.005 1.361 3.334 1.479 3.577.118.242.197.525.04.844-.157.318-.235.516-.469.795-.234.279-.492.623-.703.836-.234.235-.478.489-.205.959.273.47 1.214 1.999 2.605 3.24 1.79 1.597 3.298 2.094 3.768 2.328.47.235.745.196 1.019-.118.273-.313 1.172-1.367 1.484-1.837.313-.47.626-.392 1.056-.235.431.157 2.735 1.29 3.205 1.524.47.235.784.352.898.549.118.196.118 1.132-.226 2.226z"/></svg>
+                Order via WhatsApp
+            </a>
 
-    <button class="btn-rose" id="orderBtn" style="display:none; margin: 1.5rem auto; font-size: 1.1rem; padding: 1.2rem 3rem;" onclick="placeOrder()">
-        🛒 Place Order via WhatsApp
-    </button>
+            <div style="display: flex; align-items: center; color: rgba(255,255,255,0.4); font-weight: 600;">OR</div>
+
+            <!-- Email Option -->
+            <a href="mailto:magnetmymemory@outlook.com?subject=New%20Magnet%20Order&body=Hi!%20I%27d%20like%20to%20place%20an%20order%20for%20photo%20magnets.%0A%0AProduct%20(please%20tick)%3A%0A%E2%96%A2%20Single%20Magnet%20%C2%A34%20each%20(2%22x2%22)%0A%E2%96%A2%20Magnet%20Strip%20%C2%A36%20each%20(3%20photos)%0A%E2%96%A2%20Save%20The%20Date%20%C2%A35%20each%20(4%22x6%22)%0A%0AQuantity%3A%0A%0ADelivery%20Address%3A%0A%0ASpecial%20Instructions%3A%0A%0AI%20will%20attach%20my%20photos%20to%20this%20email." style="background: white; color: var(--rose); padding: 1.3rem 2.5rem; border-radius: 100px; text-decoration: none; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 8px 30px rgba(255,255,255,0.15); transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 40px rgba(255,255,255,0.25)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 30px rgba(255,255,255,0.15)'">
+                <span style="font-size: 1.5rem;">📧</span>
+                Order via Email
+            </a>
+        </div>
+
+        <p style="color: rgba(255,255,255,0.45); font-size: 0.9rem; margin-top: 0.5rem;">We reply within 24 hours · Attach your photos when ordering</p>
+    </div>
 </section>
 
 <!-- DELIVERY BANNER -->
@@ -1187,22 +1215,75 @@
 
         <!-- QR PANEL -->
         <div id="qr-panel" class="apanel on">
-            <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; margin-bottom:1.5rem;">Generate Event QR Code</h2>
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; margin-bottom:0.5rem;">Event QR Code Generator</h2>
+            <p style="color:#999; margin-bottom:2rem;">Create a unique QR code for each event. Guests scan it and upload photos directly to your Google Drive!</p>
+
+            <div style="background: #FFF8E1; border: 1px solid #FFD54F; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                <p style="font-weight: 600; color: #F57F17; margin-bottom: 0.5rem;">⚙️ One-Time Setup Required</p>
+                <p style="color: #795548; font-size: 0.9rem; line-height: 1.7;">
+                    1. Go to <strong>forms.google.com</strong> and create a photo upload form<br>
+                    2. Add fields: Name, Email, Photo Upload (file upload type)<br>
+                    3. Click Send → Copy the form link<br>
+                    4. Paste it below as your Master Form URL<br>
+                    5. All guest photos will go to your Google Drive automatically!
+                </p>
+            </div>
+
             <div class="form-row">
                 <div class="fld">
-                    <label>Event Name</label>
-                    <input type="text" id="evtName" placeholder="e.g. Sarah's Wedding">
+                    <label>Event Name *</label>
+                    <input type="text" id="evtName" placeholder="e.g. Sam's Wedding, John's 50th Birthday">
                 </div>
                 <div class="fld">
-                    <label>Upload URL (optional)</label>
-                    <input type="text" id="evtUrl" placeholder="https://www.magnetmymemory.com/#upload">
+                    <label>Event Date (Optional)</label>
+                    <input type="text" id="evtDate" placeholder="e.g. 14th June 2025">
                 </div>
             </div>
-            <button class="btn-rose" onclick="makeQR()">Generate QR Code</button>
-            <div id="qrWrap" style="display:none; margin-top:2rem; text-align:center;">
-                <div id="qrBox"></div>
-                <p id="qrUrlText" style="margin-top:1rem; color:#666; font-size:0.9rem;"></p>
-                <button class="btn-outline" onclick="dlQR()" style="margin-top:1rem;">Download QR Code</button>
+
+            <div class="fld" style="margin-bottom: 1.5rem;">
+                <label>Your Google Form URL *</label>
+                <input type="text" id="evtUrl" placeholder="https://forms.gle/xxxxxxxxxx (paste your Google Form link here)">
+                <p style="font-size: 0.8rem; color: #999; margin-top: 0.4rem;">Get this from forms.google.com → Send → Link icon</p>
+            </div>
+
+            <div class="fld" style="margin-bottom: 2rem;">
+                <label>Custom Message for Guests (Optional)</label>
+                <input type="text" id="evtMsg" placeholder="e.g. Scan to upload your photos from today!">
+            </div>
+
+            <button class="btn-rose" onclick="makeQR()">🎨 Generate Event QR Code</button>
+
+            <div id="qrWrap" style="display:none; margin-top:2.5rem;">
+                <div style="display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: start; background: var(--light); padding: 2rem; border-radius: 16px;">
+                    <div style="text-align: center;">
+                        <div id="qrBox"></div>
+                        <button class="btn-outline" onclick="dlQR()" style="margin-top: 1rem; width: 100%;">⬇️ Download QR</button>
+                        <button onclick="printQR()" style="margin-top: 0.5rem; width: 100%; background: var(--dark); color: white; border: none; padding: 0.75rem; border-radius: 10px; cursor: pointer; font-weight: 600;">🖨️ Print QR</button>
+                    </div>
+                    <div>
+                        <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-bottom:1rem;" id="qrEventTitle"></h3>
+                        <div style="background: white; padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;">
+                            <p style="font-size: 0.85rem; color: #999; margin-bottom: 0.25rem;">GOOGLE FORM LINK</p>
+                            <p id="qrUrlText" style="font-size: 0.9rem; color: #333; word-break: break-all;"></p>
+                        </div>
+                        <div style="background: #E8F5E9; padding: 1.5rem; border-radius: 12px;">
+                            <p style="font-weight: 600; color: #2E7D32; margin-bottom: 0.5rem;">✅ How guests use this:</p>
+                            <p style="color: #388E3C; font-size: 0.9rem; line-height: 1.8;">
+                                1. Guest scans QR code with phone camera<br>
+                                2. Google Form opens automatically<br>
+                                3. They enter name, email & upload photos<br>
+                                4. Photos go straight to YOUR Google Drive!<br>
+                                5. You open Drive to download & print
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Events -->
+            <div style="margin-top: 3rem;" id="savedEventsSection">
+                <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.5rem; margin-bottom:1rem;">Saved Events</h3>
+                <div id="savedEventsList"></div>
             </div>
         </div>
 
@@ -1256,75 +1337,6 @@
 </div>
 
 <script>
-    /* ─── UPLOAD ─── */
-    var photos = [];
-    var uploadBox = document.getElementById('uploadBox');
-    var fileInput = document.getElementById('fileInput');
-    var photoGrid = document.getElementById('photoGrid');
-    var orderBtn  = document.getElementById('orderBtn');
-
-    uploadBox.onclick = function() { fileInput.click(); };
-
-    uploadBox.ondragover = function(e) {
-        e.preventDefault();
-        uploadBox.style.borderColor = '#F4768A';
-        uploadBox.style.background = 'rgba(200,68,90,0.1)';
-    };
-
-    uploadBox.ondragleave = function() {
-        uploadBox.style.borderColor = 'rgba(255,255,255,0.25)';
-        uploadBox.style.background = 'rgba(255,255,255,0.04)';
-    };
-
-    uploadBox.ondrop = function(e) {
-        e.preventDefault();
-        uploadBox.style.borderColor = 'rgba(255,255,255,0.25)';
-        uploadBox.style.background = 'rgba(255,255,255,0.04)';
-        readFiles(e.dataTransfer.files);
-    };
-
-    fileInput.onchange = function(e) { readFiles(e.target.files); };
-
-    function readFiles(files) {
-        for (var i = 0; i < files.length; i++) {
-            if (!files[i].type.match('image.*')) continue;
-            (function(file) {
-                var r = new FileReader();
-                r.onload = function(e) {
-                    photos.push(e.target.result);
-                    renderPhotos();
-                };
-                r.readAsDataURL(file);
-            })(files[i]);
-        }
-    }
-
-    function renderPhotos() {
-        photoGrid.innerHTML = '';
-        for (var i = 0; i < photos.length; i++) {
-            var d = document.createElement('div');
-            d.className = 'photo-thumb';
-            var img = document.createElement('img');
-            img.src = photos[i];
-            var btn = document.createElement('button');
-            btn.className = 'rm';
-            btn.textContent = '×';
-            btn.onclick = (function(idx) {
-                return function() { photos.splice(idx, 1); renderPhotos(); };
-            })(i);
-            d.appendChild(img);
-            d.appendChild(btn);
-            photoGrid.appendChild(d);
-        }
-        orderBtn.style.display = photos.length > 0 ? 'block' : 'none';
-    }
-
-    function placeOrder() {
-        var msg = 'Hi! I would like to order ' + photos.length + ' magnet(s). I have ' + photos.length + ' photo(s) ready. Please can you help me complete my order?';
-        window.open('https://wa.me/447554147299?text=' + encodeURIComponent(msg));
-        alert('Great! We will contact you on WhatsApp to complete your order.\n\nPhotos ready: ' + photos.length);
-    }
-
     /* ─── SMOOTH SCROLL ─── */
     document.querySelectorAll('a[href^="#"]').forEach(function(a) {
         a.addEventListener('click', function(e) {
@@ -1358,27 +1370,105 @@
     }
 
     /* ─── QR ─── */
+    var savedEvents = JSON.parse(localStorage.getItem('mmm_events') || '[]');
+
     function makeQR() {
         var name = document.getElementById('evtName').value.trim();
-        var url  = document.getElementById('evtUrl').value.trim() || 'https://www.magnetmymemory.com/#upload';
+        var url  = document.getElementById('evtUrl').value.trim();
+        var date = document.getElementById('evtDate').value.trim();
+
         if (!name) { alert('Please enter an event name'); return; }
+        if (!url)  { alert('Please paste your Google Form URL'); return; }
         if (!url.startsWith('http')) url = 'https://' + url;
-        var full = url + '?event=' + encodeURIComponent(name);
-        var box  = document.getElementById('qrBox');
+
+        var box = document.getElementById('qrBox');
         box.innerHTML = '';
-        new QRCode(box, { text: full, width: 256, height: 256, correctLevel: QRCode.CorrectLevel.H });
-        document.getElementById('qrUrlText').textContent = 'URL: ' + full;
+
+        new QRCode(box, {
+            text: url,
+            width: 220,
+            height: 220,
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        document.getElementById('qrUrlText').textContent = url;
+        document.getElementById('qrEventTitle').textContent = name + (date ? ' — ' + date : '');
         document.getElementById('qrWrap').style.display = 'block';
+        document.getElementById('qrWrap').scrollIntoView({ behavior: 'smooth' });
+
+        // Save event
+        var event = { id: Date.now(), name: name, date: date, url: url };
+        savedEvents.unshift(event);
+        localStorage.setItem('mmm_events', JSON.stringify(savedEvents));
+        renderSavedEvents();
     }
 
     function dlQR() {
         var c = document.querySelector('#qrBox canvas');
         if (!c) { alert('Generate a QR code first'); return; }
+        var name = document.getElementById('evtName').value || 'event';
         var a = document.createElement('a');
-        a.download = 'magnet-my-memory-qr.png';
+        a.download = 'QR-' + name.replace(/\s+/g, '-') + '.png';
         a.href = c.toDataURL();
         a.click();
     }
+
+    function printQR() {
+        var c = document.querySelector('#qrBox canvas');
+        if (!c) { alert('Generate a QR code first'); return; }
+        var name = document.getElementById('evtName').value || 'Event';
+        var date = document.getElementById('evtDate').value || '';
+        var imgData = c.toDataURL();
+        var w = window.open('', '_blank');
+        w.document.write('<html><head><title>QR Code - ' + name + '</title><style>body{font-family:Georgia,serif;text-align:center;padding:3rem;} h1{font-size:2.5rem;margin-bottom:0.5rem;} p{color:#666;margin-bottom:2rem;} img{width:300px;height:300px;} .footer{margin-top:2rem;font-size:1rem;color:#999;}</style></head><body>');
+        w.document.write('<h1>' + name + '</h1>');
+        if (date) w.document.write('<p>' + date + '</p>');
+        w.document.write('<img src="' + imgData + '"><br>');
+        w.document.write('<p style="font-size:1.2rem; color:#333; margin-top:1.5rem;">📸 Scan to upload your photos!</p>');
+        w.document.write('<div class="footer">Magnet My Memory · magnetmymemory@outlook.com</div>');
+        w.document.write('</body></html>');
+        w.document.close();
+        w.print();
+    }
+
+    function renderSavedEvents() {
+        var list = document.getElementById('savedEventsList');
+        if (!list) return;
+        if (savedEvents.length === 0) {
+            list.innerHTML = '<p style="color:#999;">No events saved yet. Generate your first QR code above!</p>';
+            return;
+        }
+        list.innerHTML = savedEvents.map(function(ev) {
+            return '<div style="background:white; border:1px solid #E9ECEF; border-radius:12px; padding:1.25rem; margin-bottom:0.75rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">' +
+                '<div>' +
+                    '<p style="font-weight:700; font-size:1rem;">' + ev.name + (ev.date ? ' <span style="color:#999; font-weight:400;">— ' + ev.date + '</span>' : '') + '</p>' +
+                    '<p style="color:#999; font-size:0.85rem; word-break:break-all;">' + ev.url + '</p>' +
+                '</div>' +
+                '<div style="display:flex; gap:0.5rem;">' +
+                    '<button onclick="regenQR(\'' + ev.id + '\')" style="background:var(--rose-pale); color:var(--rose); border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; font-weight:600; font-size:0.85rem;">Regenerate QR</button>' +
+                    '<button onclick="deleteEvent(' + ev.id + ')" style="background:#FFF5F5; color:#e53935; border:none; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; font-weight:600; font-size:0.85rem;">Delete</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    }
+
+    function regenQR(id) {
+        var ev = savedEvents.find(function(e) { return e.id == id; });
+        if (!ev) return;
+        document.getElementById('evtName').value = ev.name;
+        document.getElementById('evtDate').value = ev.date || '';
+        document.getElementById('evtUrl').value = ev.url;
+        makeQR();
+    }
+
+    function deleteEvent(id) {
+        if (!confirm('Delete this event?')) return;
+        savedEvents = savedEvents.filter(function(e) { return e.id !== id; });
+        localStorage.setItem('mmm_events', JSON.stringify(savedEvents));
+        renderSavedEvents();
+    }
+
+    renderSavedEvents();
 
     /* ─── IMAGE PROCESSOR ─── */
     var adminImgs = [];
