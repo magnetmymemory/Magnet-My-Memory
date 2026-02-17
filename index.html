@@ -5,854 +5,1464 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magnet My Memory - Custom Photo Magnets</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         :root {
-            --primary: #D4416F;
-            --primary-light: #FF6B9D;
-            --accent: #FFB84D;
-            --dark: #1A1A2E;
-            --light: #F8F9FA;
-            --text: #2D3142;
-            --text-light: #6C757D;
-            --success: #4CAF50;
+            --rose: #C8445A;
+            --rose-light: #F4768A;
+            --rose-pale: #FFF0F2;
+            --gold: #C9973A;
+            --dark: #1C1C2E;
+            --mid: #3D3D5C;
+            --light: #F9F6F7;
+            --white: #FFFFFF;
         }
-        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--text);
-            line-height: 1.7;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--white);
+            color: var(--dark);
+            overflow-x: hidden;
         }
-        
+
+        /* ─── NAV ─── */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            padding: 1.25rem 5%;
+            z-index: 900;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            justify-content: space-between;
+            padding: 1.2rem 6%;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(200,68,90,0.12);
         }
-        
+
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--rose), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             list-style: none;
-            align-items: center;
         }
-        
+
         .nav-links a {
             text-decoration: none;
-            color: var(--text);
+            color: var(--mid);
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 0.95rem;
+            transition: color 0.2s;
         }
-        
-        .nav-links a:hover {
-            color: var(--primary);
+
+        .nav-links a:hover { color: var(--rose); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
+            color: white;
+            padding: 0.75rem 1.8rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(200,68,90,0.3);
         }
-        
-        section {
-            padding: 6rem 5%;
-            min-height: 50vh;
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(200,68,90,0.4);
         }
-        
+
+        /* ─── HERO ─── */
         .hero {
-            margin-top: 80px;
-            min-height: 90vh;
-            display: flex;
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             align-items: center;
-            background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+            padding: 8rem 6% 5rem;
+            background: linear-gradient(145deg, #FFF0F2 0%, #FFF8F0 50%, #F0F2FF 100%);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .hero-content {
-            flex: 1;
-            max-width: 600px;
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(200,68,90,0.08), transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
         }
-        
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(201,151,58,0.08), transparent 70%);
+            bottom: -80px;
+            left: 30%;
+            border-radius: 50%;
+        }
+
+        .hero-text { position: relative; z-index: 2; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 1px solid rgba(200,68,90,0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--rose);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(200,68,90,0.1);
+        }
+
         .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1.05;
             color: var(--dark);
+            margin-bottom: 1.5rem;
         }
-        
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+
+        .hero h1 em {
+            font-style: italic;
+            background: linear-gradient(120deg, var(--rose), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
+            font-size: 1.15rem;
+            color: var(--mid);
+            max-width: 480px;
             margin-bottom: 2.5rem;
+            line-height: 1.8;
         }
-        
-        .btn {
-            padding: 1.1rem 2.5rem;
-            background: linear-gradient(135deg, var(--primary), #C51162);
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-rose {
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
             color: white;
-            border: none;
-            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            text-decoration: none;
             font-weight: 600;
             font-size: 1rem;
-            cursor: pointer;
             transition: all 0.3s;
-            text-decoration: none;
+            box-shadow: 0 6px 25px rgba(200,68,90,0.35);
+            border: none;
+            cursor: pointer;
             display: inline-block;
-            margin-right: 1rem;
         }
-        
-        .btn:hover {
+
+        .btn-rose:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(212, 65, 111, 0.4);
+            box-shadow: 0 12px 35px rgba(200,68,90,0.45);
         }
-        
-        .btn-secondary {
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+
+        .btn-outline {
+            background: transparent;
+            color: var(--rose);
+            padding: 1rem 2.5rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid var(--rose);
+            transition: all 0.3s;
+            display: inline-block;
+            cursor: pointer;
         }
-        
-        .btn-secondary:hover {
-            background: var(--primary);
+
+        .btn-outline:hover {
+            background: var(--rose);
             color: white;
+            transform: translateY(-3px);
         }
-        
-        .section-title {
-            font-family: 'Playfair Display', serif;
+
+        .hero-trust {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--mid);
+        }
+
+        .trust-item span:first-child { font-size: 1.2rem; }
+
+        /* Hero Visual */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .magnets-scene {
+            position: relative;
+            width: 500px;
+            height: 520px;
+        }
+
+        .magnet-tile {
+            position: absolute;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            overflow: hidden;
+        }
+
+        .magnet-tile::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+        }
+
+        .t1 { width: 165px; height: 165px; top: 0; left: 20px; animation: fl1 4s ease-in-out infinite; background: linear-gradient(135deg, #FFE4EC, #FFC8D8); }
+        .t2 { width: 140px; height: 140px; top: 30px; right: 20px; animation: fl2 3.5s ease-in-out infinite 0.4s; background: linear-gradient(135deg, #E4F0FF, #C8DCFF); }
+        .t3 { width: 155px; height: 155px; top: 50%; left: 0; transform: translateY(-50%); animation: fl1 4.5s ease-in-out infinite 0.8s; background: linear-gradient(135deg, #FFF3D4, #FFE4A0); }
+        .t4 { width: 180px; height: 180px; top: 50%; left: 50%; transform: translate(-50%, -60%); animation: fl3 3.8s ease-in-out infinite 0.2s; background: linear-gradient(135deg, #E4FFEC, #A0FFBC); box-shadow: 0 25px 70px rgba(0,0,0,0.15); z-index: 10; }
+        .t5 { width: 145px; height: 145px; bottom: 20px; left: 30px; animation: fl2 4.2s ease-in-out infinite 0.6s; background: linear-gradient(135deg, #F0E4FF, #DCC8FF); }
+        .t6 { width: 150px; height: 150px; bottom: 10px; right: 10px; animation: fl1 3.6s ease-in-out infinite 1s; background: linear-gradient(135deg, #FFE8E4, #FFCCC8); }
+
+        @keyframes fl1 {
+            0%, 100% { transform: translateY(0) rotate(-4deg); }
+            50% { transform: translateY(-18px) rotate(-6deg); }
+        }
+        @keyframes fl2 {
+            0%, 100% { transform: translateY(0) rotate(5deg); }
+            50% { transform: translateY(-22px) rotate(7deg); }
+        }
+        @keyframes fl3 {
+            0%, 100% { transform: translate(-50%, -60%) rotate(-2deg); }
+            50% { transform: translate(-50%, -72%) rotate(1deg); }
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            background: var(--dark);
+            color: white;
+            padding: 2.5rem 6%;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
             font-size: 3rem;
             font-weight: 700;
-            text-align: center;
+            background: linear-gradient(135deg, var(--rose-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ─── SECTION SHARED ─── */
+        .section {
+            padding: 7rem 6%;
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--rose-pale);
+            color: var(--rose);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
             margin-bottom: 1rem;
+        }
+
+        h2.heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.15;
             color: var(--dark);
+            margin-bottom: 1.2rem;
         }
-        
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-light);
+
+        h2.heading em {
+            font-style: italic;
+            color: var(--rose);
+        }
+
+        .subheading {
             font-size: 1.1rem;
-            margin-bottom: 4rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            color: var(--mid);
+            max-width: 550px;
+            line-height: 1.8;
+            margin-bottom: 3rem;
         }
-        
-        .pricing-grid {
+
+        /* ─── PRODUCTS ─── */
+        .products-bg {
+            background: var(--light);
+        }
+
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            max-width: 1000px;
-            margin: 3rem auto;
+            max-width: 1100px;
+            margin: 0 auto;
         }
-        
-        .pricing-card {
-            background: var(--light);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+            transition: all 0.35s;
+            position: relative;
         }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.13);
         }
-        
-        .pricing-card.featured {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+
+        .product-card.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: 1.5rem;
+            right: -1rem;
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
             color: white;
-            transform: scale(1.05);
-        }
-        
-        .pricing-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-        
-        .price {
-            font-size: 3rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            font-family: 'Playfair Display', serif;
-            margin: 1.5rem 0;
+            letter-spacing: 1px;
+            padding: 0.4rem 2rem 0.4rem 1rem;
+            border-radius: 100px 0 0 100px;
+            z-index: 5;
         }
-        
-        .pricing-features {
+
+        .product-img {
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+        }
+
+        .product-img .mock {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-body {
+            padding: 2rem;
+        }
+
+        .product-body h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--rose);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-price small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--mid);
+        }
+
+        .product-features {
             list-style: none;
-            margin: 2rem 0;
-            text-align: left;
+            margin-bottom: 2rem;
         }
-        
-        .pricing-features li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        .product-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light);
+            font-size: 0.95rem;
+            color: var(--mid);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .upload-section {
-            background: var(--dark);
+
+        .product-features li::before {
+            content: '✓';
+            color: var(--rose);
+            font-weight: 700;
+        }
+
+        /* ─── HOW IT WORKS ─── */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
             color: white;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 25px rgba(200,68,90,0.3);
+        }
+
+        .step h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--mid);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* ─── UPLOAD ─── */
+        .upload-section {
+            background: linear-gradient(145deg, var(--dark) 0%, #2D1B33 100%);
+            padding: 7rem 6%;
             text-align: center;
         }
-        
-        .upload-section .section-title {
+
+        .upload-section .section-tag {
+            background: rgba(200,68,90,0.2);
+        }
+
+        .upload-section h2.heading {
             color: white;
         }
-        
-        .upload-section .section-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .upload-zone {
-            max-width: 800px;
-            margin: 3rem auto;
-            background: rgba(255, 255, 255, 0.05);
-            border: 3px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 4rem 2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-zone:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary-light);
-        }
-        
-        #photoPreview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-            max-width: 800px;
+
+        .upload-section .subheading {
+            color: rgba(255,255,255,0.7);
             margin-left: auto;
             margin-right: auto;
         }
-        
-        .preview-item {
-            position: relative;
-            aspect-ratio: 1;
-            overflow: hidden;
-            border-radius: 15px;
-            border: 3px solid rgba(255, 255, 255, 0.2);
+
+        .upload-box {
+            max-width: 700px;
+            margin: 0 auto;
+            border: 2px dashed rgba(255,255,255,0.25);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255,255,255,0.04);
         }
-        
-        .preview-item img {
+
+        .upload-box:hover {
+            border-color: var(--rose-light);
+            background: rgba(200,68,90,0.08);
+        }
+
+        .upload-icon-wrap {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 30px rgba(200,68,90,0.4);
+        }
+
+        .upload-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .upload-box p {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+
+        .photo-thumb {
+            aspect-ratio: 1;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+
+        .photo-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
-        .preview-item button {
+
+        .photo-thumb .rm {
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: var(--primary);
+            top: 6px;
+            right: 6px;
+            background: var(--rose);
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             cursor: pointer;
             font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .whatsapp-float {
+
+        /* ─── DELIVERY BANNER ─── */
+        .delivery-banner {
+            background: linear-gradient(135deg, var(--rose), var(--rose-light));
+            color: white;
+            padding: 3rem 6%;
+            text-align: center;
+        }
+
+        .delivery-banner h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .delivery-items {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .delivery-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .delivery-item span:first-child { font-size: 2rem; }
+
+        /* ─── CONTACT ─── */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+            border: 1px solid rgba(200,68,90,0.1);
+            transition: transform 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-card a {
+            color: var(--rose);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 6% 2rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, var(--rose-light), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--rose-light); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* ─── WHATSAPP FLOAT ─── */
+        .wa-float {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            width: 60px;
-            height: 60px;
+            width: 62px;
+            height: 62px;
             background: #25D366;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            z-index: 999;
+            box-shadow: 0 6px 25px rgba(37,211,102,0.45);
+            z-index: 800;
             text-decoration: none;
-            font-size: 2rem;
             transition: all 0.3s;
         }
-        
-        .whatsapp-float:hover {
-            transform: scale(1.1);
+
+        .wa-float:hover {
+            transform: scale(1.12);
+            box-shadow: 0 10px 35px rgba(37,211,102,0.55);
         }
-        
+
+        .wa-float svg {
+            width: 36px;
+            height: 36px;
+            fill: white;
+        }
+
+        .wa-label {
+            position: absolute;
+            right: 72px;
+            background: white;
+            color: #333;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .wa-float:hover .wa-label {
+            opacity: 1;
+            visibility: visible;
+            right: 76px;
+        }
+
+        /* ─── ADMIN MODAL ─── */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            inset: 0;
+            background: rgba(0,0,0,0.85);
             z-index: 2000;
             overflow-y: auto;
         }
-        
-        .modal.active {
-            display: block;
-        }
-        
-        .modal-content {
-            max-width: 1400px;
+
+        .modal.open { display: block; }
+
+        .modal-inner {
+            max-width: 1300px;
             margin: 2rem auto;
             background: white;
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 3rem;
             position: relative;
         }
-        
-        .close-modal {
+
+        .modal-close {
             position: absolute;
-            top: 2rem;
-            right: 2rem;
-            background: var(--primary);
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--rose);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
+            transition: transform 0.2s;
         }
-        
+
+        .modal-close:hover { transform: rotate(90deg); }
+
         .admin-tabs {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #E9ECEF;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
         }
-        
-        .admin-tab {
-            padding: 1rem 2rem;
+
+        .atab {
+            padding: 0.75rem 1.5rem;
             background: transparent;
             border: none;
-            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
             font-weight: 600;
-            color: var(--text-light);
-            transition: all 0.3s;
+            color: #999;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.2s;
         }
-        
-        .admin-tab.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
+
+        .atab.on {
+            background: var(--rose-pale);
+            color: var(--rose);
         }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-group {
+
+        .apanel { display: none; }
+        .apanel.on { display: block; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
             margin-bottom: 1.5rem;
         }
-        
-        .form-group label {
+
+        .fld label {
             display: block;
-            margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+            color: var(--mid);
         }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+
+        .fld input, .fld select, .fld textarea {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.8rem 1rem;
             border: 2px solid #E9ECEF;
             border-radius: 10px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
         }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+
+        .fld input:focus, .fld select:focus, .fld textarea:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--rose);
         }
-        
-        #qrDisplay {
+
+        #qrBox {
             background: white;
-            padding: 2rem;
-            border-radius: 15px;
+            padding: 1.5rem;
+            border-radius: 12px;
             display: inline-block;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
-        
-        footer {
-            background: var(--dark);
-            color: white;
+
+        .upload-drop {
+            border: 2px dashed var(--rose);
+            border-radius: 16px;
+            padding: 3rem;
             text-align: center;
-            padding: 3rem 5%;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: var(--rose-pale);
         }
-        
-        .hidden {
-            display: none;
+
+        .upload-drop:hover {
+            background: rgba(200,68,90,0.08);
         }
-        
-        @media (max-width: 768px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .nav-links {
-                display: none;
-            }
+
+        .order-table { width: 100%; border-collapse: collapse; }
+        .order-table th { text-align: left; padding: 1rem; background: var(--light); font-size: 0.85rem; text-transform: uppercase; color: var(--mid); }
+        .order-table td { padding: 1rem; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+        .order-table tr:hover td { background: var(--rose-pale); }
+
+        .badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-pending { background: #FFF3CD; color: #856404; }
+        .badge-processing { background: #CCE5FF; color: #004085; }
+        .badge-done { background: #D4EDDA; color: #155724; }
+
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; padding: 8rem 5% 4rem; }
+            .hero h1 { font-size: 3.5rem; }
+            .hero-visual { display: none; }
+            .magnets-scene { display: none; }
+            h2.heading { font-size: 2.5rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">Magnet My Memory</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#upload">Upload</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#" onclick="openAdmin(); return false;" style="opacity: 0.3;">•</a></li>
-        </ul>
-    </nav>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Preserve Your <span>Precious Moments</span></h1>
-            <p>Transform your favorite photos into beautiful, high-quality magnets. Perfect for events, gifts, and cherishing memories.</p>
-            <a href="#upload" class="btn">Upload Photos</a>
-            <a href="https://wa.me/447755414299" class="btn btn-secondary">Contact Us</a>
+<!-- NAV -->
+<nav>
+    <div class="logo">Magnet My Memory</div>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#upload" class="nav-cta">Upload Photos</a>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+    <div class="hero-text">
+        <div class="hero-badge">🧲 UK's Favourite Photo Magnet Shop</div>
+        <h1>Your Memories <em>Deserve</em> to Stick Around</h1>
+        <p>Turn your favourite photos into stunning, premium-quality magnets. Perfect for weddings, birthdays, parties, and gifts that truly last.</p>
+        <div class="hero-buttons">
+            <a href="#upload" class="btn-rose">Upload Your Photos</a>
+            <a href="#products" class="btn-outline">View Products</a>
         </div>
-    </section>
+        <div class="hero-trust">
+            <div class="trust-item"><span>✨</span><span>Premium Quality Printing</span></div>
+            <div class="trust-item"><span>🚚</span><span>UK Delivery from £2.75</span></div>
+            <div class="trust-item"><span>💰</span><span>Bulk Discounts Available</span></div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="magnets-scene">
+            <div class="magnet-tile t1" style="font-size: 3.5rem;">📸</div>
+            <div class="magnet-tile t2" style="font-size: 3rem;">💕</div>
+            <div class="magnet-tile t3" style="font-size: 3rem;">🎉</div>
+            <div class="magnet-tile t4" style="font-size: 4rem;">🎂</div>
+            <div class="magnet-tile t5" style="font-size: 3rem;">👨‍👩‍👧</div>
+            <div class="magnet-tile t6" style="font-size: 3rem;">💌</div>
+        </div>
+    </div>
+</section>
 
-    <section id="pricing" style="background: white;">
-        <h2 class="section-title">Our Products & Pricing</h2>
-        <p class="section-subtitle">High-quality photo magnets with volume discounts available</p>
-        
-        <div class="pricing-grid">
-            <div class="pricing-card">
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Happy Customers</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Products Available</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">£2.75</div>
+        <div class="stat-label">UK Delivery From</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">300</div>
+        <div class="stat-label">DPI Print Quality</div>
+    </div>
+</div>
+
+<!-- PRODUCTS -->
+<section id="products" class="section products-bg">
+    <div style="text-align: center; margin-bottom: 1rem;">
+        <span class="section-tag">Our Products</span>
+    </div>
+    <h2 class="heading" style="text-align: center;">Choose Your <em>Perfect</em> Magnet</h2>
+    <p class="subheading" style="text-align: center; margin-left: auto; margin-right: auto;">Premium quality photo magnets for every occasion — all cheaper when you order more!</p>
+
+    <div class="products-grid">
+        <!-- Single Magnet -->
+        <div class="product-card">
+            <div class="product-img" style="background: linear-gradient(135deg, #FFF3D4, #FFE4A0);">
+                <div class="mock" style="width: 120px; height: 120px; font-size: 4rem;">📸</div>
+            </div>
+            <div class="product-body">
                 <h3>Single Magnets</h3>
-                <div class="price">£4<span style="font-size: 1.2rem;">+</span></div>
-                <ul class="pricing-features">
-                    <li>✓ 2" x 2" photo magnets</li>
-                    <li>✓ High-quality printing</li>
-                    <li>✓ Perfect for events & gifts</li>
-                    <li>✓ Bulk discounts available</li>
-                    <li style="margin-top: 1rem; font-weight: 600;">📦 UK Delivery from £2.75</li>
+                <div class="product-price">£4 <small>per magnet</small></div>
+                <ul class="product-features">
+                    <li>2" x 2" premium size</li>
+                    <li>High-quality print finish</li>
+                    <li>Strong magnetic backing</li>
+                    <li>Bulk discounts available</li>
+                    <li>UK Delivery from £2.75</li>
                 </ul>
+                <a href="#upload" class="btn-rose" style="width: 100%; text-align: center; display: block;">Order Now</a>
             </div>
-            
-            <div class="pricing-card featured">
+        </div>
+
+        <!-- Magnet Strip -->
+        <div class="product-card popular">
+            <div class="product-img" style="background: linear-gradient(135deg, #FFE4EC, #FFC8D8);">
+                <div style="display: flex; gap: 0.5rem;">
+                    <div class="mock" style="width: 75px; height: 75px; font-size: 2rem;">💕</div>
+                    <div class="mock" style="width: 75px; height: 75px; font-size: 2rem;">🎉</div>
+                    <div class="mock" style="width: 75px; height: 75px; font-size: 2rem;">🥂</div>
+                </div>
+            </div>
+            <div class="product-body">
                 <h3>Magnet Strips</h3>
-                <div class="price">£6<span style="font-size: 1.2rem;">+</span></div>
-                <ul class="pricing-features">
-                    <li>✓ 3 photos in one strip</li>
-                    <li>✓ Personalised message at bottom</li>
-                    <li>✓ 2" x 2" per photo section</li>
-                    <li>✓ Great for special occasions</li>
-                    <li>✓ Bulk discounts available</li>
+                <div class="product-price">£6 <small>per strip</small></div>
+                <ul class="product-features">
+                    <li>3 photos in one strip</li>
+                    <li>Personalised message at bottom</li>
+                    <li>2" x 2" per photo section</li>
+                    <li>Great for events & parties</li>
+                    <li>Bulk discounts available</li>
                 </ul>
+                <a href="#upload" class="btn-rose" style="width: 100%; text-align: center; display: block;">Order Now</a>
             </div>
-            
-            <div class="pricing-card">
+        </div>
+
+        <!-- Save The Date -->
+        <div class="product-card">
+            <div class="product-img" style="background: linear-gradient(135deg, #E4E4FF, #C8C8FF);">
+                <div class="mock" style="width: 100px; height: 140px; font-size: 4rem;">💌</div>
+            </div>
+            <div class="product-body">
                 <h3>Save The Date</h3>
-                <div class="price">£5<span style="font-size: 1.2rem;">+</span></div>
-                <ul class="pricing-features">
-                    <li>✓ Personalised flexible magnets</li>
-                    <li>✓ 4" x 6" size</li>
-                    <li>✓ Perfect for weddings & events</li>
-                    <li>✓ Custom text & design</li>
-                    <li>✓ Bulk discounts available</li>
+                <div class="product-price">£5 <small>per magnet</small></div>
+                <ul class="product-features">
+                    <li>4" x 6" larger format</li>
+                    <li>Personalised text & design</li>
+                    <li>Flexible magnet material</li>
+                    <li>Perfect for weddings</li>
+                    <li>Bulk discounts available</li>
                 </ul>
-            </div>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: #FFF5F7; border-radius: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
-            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem;">💰 Volume Discounts Available</h3>
-            <p style="font-size: 1.1rem; color: var(--text-light);">The more you order, the more you save! Contact us for custom quotes on bulk orders.</p>
-        </div>
-    </section>
-
-    <section id="upload" class="upload-section">
-        <h2 class="section-title">Upload Your Photos</h2>
-        <p class="section-subtitle">Drag and drop or click to select your favorite photos</p>
-        
-        <div class="upload-zone" id="uploadZone">
-            <input type="file" id="fileInput" accept="image/*" multiple style="display: none;">
-            <div style="font-size: 5rem; margin-bottom: 1.5rem;">📸</div>
-            <h3 style="margin-bottom: 1rem;">Drop your photos here</h3>
-            <p style="opacity: 0.7;">or click to browse</p>
-        </div>
-        
-        <div id="photoPreview"></div>
-        
-        <button class="btn" id="orderBtn" style="display: none; margin-top: 2rem;" onclick="placeOrder()">Place Order via WhatsApp</button>
-    </section>
-
-    <section id="contact" style="background: white; text-align: center;">
-        <h2 class="section-title">Get In Touch</h2>
-        <p class="section-subtitle">Have questions? We'd love to hear from you!</p>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 800px; margin: 0 auto;">
-            <div style="background: #FFF5F7; padding: 2rem; border-radius: 15px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
-                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">Email Us</h3>
-                <a href="mailto:magnetmymemory@outlook.com" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">magnetmymemory@outlook.com</a>
-            </div>
-            
-            <div style="background: #FFF5F7; padding: 2rem; border-radius: 15px;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">💬</div>
-                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.5rem;">WhatsApp</h3>
-                <a href="https://wa.me/447755414299" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; font-size: 1.1rem;">07554 14299</a>
-            </div>
-        </div>
-    </section>
-
-    <a href="https://wa.me/447755414299?text=Hi!%20I%20have%20a%20question%20about%20Magnet%20My%20Memory" target="_blank" class="whatsapp-float">💬</a>
-
-    <footer>
-        <div style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Magnet My Memory</div>
-        <p style="opacity: 0.8; margin: 1rem 0;">Making memories stick since 2024</p>
-        <div style="margin: 2rem 0;">
-            <a href="mailto:magnetmymemory@outlook.com" style="color: white; text-decoration: none; margin: 0 1rem;">📧 Email</a>
-            <a href="https://wa.me/447755414299" style="color: white; text-decoration: none; margin: 0 1rem;">💬 WhatsApp</a>
-        </div>
-        <p style="opacity: 0.6; font-size: 0.9rem;">© 2024 Magnet My Memory. All rights reserved.</p>
-        <button onclick="openAdmin()" style="background: transparent; border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.5rem 1rem; margin-top: 1rem; cursor: pointer; border-radius: 5px; font-size: 0.8rem;">Admin</button>
-    </footer>
-
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal" onclick="closeAdmin()">×</button>
-            <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 2rem;">Admin Dashboard</h1>
-            
-            <div class="admin-tabs">
-                <button class="admin-tab active" onclick="switchTab('qr')">QR Generator</button>
-                <button class="admin-tab" onclick="switchTab('images')">Image Processor</button>
-                <button class="admin-tab" onclick="switchTab('orders')">Orders</button>
-            </div>
-            
-            <div id="qr-tab" class="tab-content active">
-                <h2 style="margin-bottom: 2rem;">Generate QR Code</h2>
-                <div style="max-width: 600px;">
-                    <div class="form-group">
-                        <label>Event Name</label>
-                        <input type="text" id="eventName" placeholder="e.g., Sarah's Birthday">
-                    </div>
-                    <div class="form-group">
-                        <label>Upload URL (Optional)</label>
-                        <input type="text" id="qrUrl" placeholder="https://www.magnetmymemory.com/#upload">
-                    </div>
-                    <button class="btn" onclick="generateQR()">Generate QR Code</button>
-                    
-                    <div id="qrResult" class="hidden" style="margin-top: 2rem; text-align: center;">
-                        <div id="qrDisplay"></div>
-                        <button class="btn btn-secondary" onclick="downloadQR()" style="margin-top: 1rem;">Download QR Code</button>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="images-tab" class="tab-content">
-                <h2 style="margin-bottom: 2rem;">Image Auto-Formatter</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                    <div class="form-group">
-                        <label>Width (inches)</label>
-                        <input type="number" id="imgWidth" value="2" step="0.1" min="0.5">
-                    </div>
-                    <div class="form-group">
-                        <label>Height (inches)</label>
-                        <input type="number" id="imgHeight" value="2" step="0.1" min="0.5">
-                    </div>
-                    <div class="form-group">
-                        <label>DPI</label>
-                        <select id="imgDPI">
-                            <option value="150">150 DPI</option>
-                            <option value="300" selected>300 DPI</option>
-                            <option value="600">600 DPI</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div style="border: 2px dashed var(--primary); padding: 3rem; text-align: center; border-radius: 10px; cursor: pointer;" id="adminUploadZone">
-                    <input type="file" id="adminFileInput" accept="image/*" multiple style="display: none;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
-                    <p>Click or drop images here</p>
-                </div>
-                
-                <div id="adminPreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem;"></div>
-                
-                <button class="btn" onclick="processAdminImages()" style="margin-top: 1rem;">Process & Download All</button>
-                
-                <canvas id="adminCanvas" style="display: none;"></canvas>
-            </div>
-            
-            <div id="orders-tab" class="tab-content">
-                <h2 style="margin-bottom: 2rem;">Orders</h2>
-                <p style="color: var(--text-light);">Orders will appear here when customers place orders through your website.</p>
-                <div style="background: var(--light); padding: 3rem; text-align: center; border-radius: 10px; margin-top: 2rem;">
-                    <p>💡 Tip: When customers click "Place Order", they'll message you on WhatsApp with their order details.</p>
-                </div>
+                <a href="#contact" class="btn-rose" style="width: 100%; text-align: center; display: block;">Get a Quote</a>
             </div>
         </div>
     </div>
 
-    <script>
-        var photos = [];
-        var adminPhotos = [];
-        
-        var uploadZone = document.getElementById('uploadZone');
-        var fileInput = document.getElementById('fileInput');
-        var preview = document.getElementById('photoPreview');
-        var orderBtn = document.getElementById('orderBtn');
-        
-        uploadZone.onclick = function() {
-            fileInput.click();
-        };
-        
-        uploadZone.ondragover = function(e) {
+    <div style="background: linear-gradient(135deg, var(--rose), var(--rose-light)); border-radius: 20px; padding: 2.5rem; text-align: center; max-width: 700px; margin: 3rem auto 0; color: white;">
+        <div style="font-size: 2rem; margin-bottom: 0.75rem;">💰</div>
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 0.5rem;">The more you order, the more you save!</h3>
+        <p style="opacity: 0.85; margin-bottom: 1.5rem;">Contact us for bulk pricing and event packages</p>
+        <a href="https://wa.me/447755414299?text=Hi!%20I'd%20like%20a%20bulk%20quote%20please" class="btn-outline" style="background: transparent; border-color: white; color: white;" target="_blank">Get Bulk Quote</a>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="section" style="background: white;">
+    <div style="text-align: center;">
+        <span class="section-tag">The Process</span>
+        <h2 class="heading">Simple as <em>1, 2, 3</em></h2>
+        <p class="subheading" style="margin-left: auto; margin-right: auto;">Getting your custom magnets is quick and easy</p>
+    </div>
+
+    <div class="steps-grid">
+        <div class="step">
+            <div class="step-num">1</div>
+            <h3>Upload Your Photos</h3>
+            <p>Drag and drop or click to upload your favourite photos. We accept JPG, PNG and most image formats.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <h3>We Format & Print</h3>
+            <p>Your photos are automatically formatted to the perfect magnet size and printed at 300 DPI quality.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <h3>Delivered to You</h3>
+            <p>Your magnets are carefully packaged and delivered to your door. UK delivery from just £2.75!</p>
+        </div>
+        <div class="step">
+            <div class="step-num">4</div>
+            <h3>Enjoy & Share!</h3>
+            <p>Stick them on your fridge, give them as gifts, or use them as event keepsakes. Memories that last!</p>
+        </div>
+    </div>
+</section>
+
+<!-- UPLOAD -->
+<section id="upload" class="upload-section">
+    <span class="section-tag">Start Your Order</span>
+    <h2 class="heading">Upload Your <em>Photos</em></h2>
+    <p class="subheading">Drag and drop or click to select your favourite photos. We'll take care of the rest!</p>
+
+    <div class="upload-box" id="uploadBox">
+        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;">
+        <div class="upload-icon-wrap">📸</div>
+        <h3>Drop your photos here</h3>
+        <p>or click to browse your files</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.5;">Supports JPG, PNG • Multiple files welcome</p>
+    </div>
+
+    <div id="photoGrid" class="photo-grid"></div>
+
+    <button class="btn-rose" id="orderBtn" style="display:none; margin: 1.5rem auto; font-size: 1.1rem; padding: 1.2rem 3rem;" onclick="placeOrder()">
+        🛒 Place Order via WhatsApp
+    </button>
+</section>
+
+<!-- DELIVERY BANNER -->
+<div class="delivery-banner">
+    <h2>Delivery & Shipping</h2>
+    <div class="delivery-items">
+        <div class="delivery-item"><span>🇬🇧</span><span>UK Delivery from £2.75</span></div>
+        <div class="delivery-item"><span>🌍</span><span>Overseas shipping calculated at checkout</span></div>
+        <div class="delivery-item"><span>📦</span><span>Carefully packaged every time</span></div>
+        <div class="delivery-item"><span>⚡</span><span>Fast turnaround</span></div>
+    </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact" class="section" style="background: var(--light); text-align: center;">
+    <span class="section-tag">Get In Touch</span>
+    <h2 class="heading">We'd Love to <em>Hear</em> from You</h2>
+    <p class="subheading" style="margin-left: auto; margin-right: auto;">Have a question or want a custom quote? Reach out to us!</p>
+
+    <div class="contact-cards">
+        <div class="contact-card">
+            <div class="contact-icon" style="background: linear-gradient(135deg, #FFF5F7, #FFE5EC);">📧</div>
+            <h3>Email Us</h3>
+            <p style="color: var(--mid); margin-bottom: 0.75rem; font-size: 0.9rem;">We reply within 24 hours</p>
+            <a href="mailto:magnetmymemory@outlook.com">magnetmymemory@outlook.com</a>
+        </div>
+        <div class="contact-card">
+            <div class="contact-icon" style="background: linear-gradient(135deg, #E8FFE8, #C8FFC8);">💬</div>
+            <h3>WhatsApp Us</h3>
+            <p style="color: var(--mid); margin-bottom: 0.75rem; font-size: 0.9rem;">Quick replies, usually instant!</p>
+            <a href="https://wa.me/447755414299" target="_blank">07554 14299</a>
+        </div>
+    </div>
+</section>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/447755414299?text=Hi!%20I%20have%20a%20question%20about%20Magnet%20My%20Memory" target="_blank" class="wa-float">
+    <span class="wa-label">Chat with us!</span>
+    <svg viewBox="0 0 32 32"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.747 5.584 2.165 8.006L.051 31.682l7.883-2.068A15.935 15.935 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm8.133 22.569c-.344.968-2.017 1.779-3.296 2.011-.875.155-2.012.278-5.84-1.252-4.899-1.958-8.067-6.891-8.31-7.209-.235-.318-1.99-2.648-1.99-5.051 0-2.404 1.259-3.584 1.705-4.074.446-.49 1.227-.613 1.637-.613.203 0 .385.009.554.016.446.018.669.042 1.042.809.447 1.005 1.361 3.334 1.479 3.577.118.242.197.525.04.844-.157.318-.235.516-.469.795-.234.279-.492.623-.703.836-.234.235-.478.489-.205.959.273.47 1.214 1.999 2.605 3.24 1.79 1.597 3.298 2.094 3.768 2.328.47.235.745.196 1.019-.118.273-.313 1.172-1.367 1.484-1.837.313-.47.626-.392 1.056-.235.431.157 2.735 1.29 3.205 1.524.47.235.784.352.898.549.118.196.118 1.132-.226 2.226z"/></svg>
+</a>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">Magnet My Memory</div>
+    <p style="opacity: 0.6; margin-bottom: 2rem;">Making memories stick since 2024</p>
+    <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#how">How It Works</a>
+        <a href="#upload">Upload</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:magnetmymemory@outlook.com">📧 Email</a>
+        <a href="https://wa.me/447755414299">💬 WhatsApp</a>
+        <a href="#" onclick="openAdmin(); return false;" style="opacity: 0.2;">•</a>
+    </div>
+    <button onclick="openAdmin()" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); padding: 0.4rem 1rem; border-radius: 5px; cursor: pointer; font-size: 0.8rem; margin-bottom: 1.5rem;">Admin</button>
+    <div class="footer-bottom">© 2024 Magnet My Memory. All rights reserved. | magnetmymemory@outlook.com | 07554 14299</div>
+</footer>
+
+<!-- ADMIN MODAL -->
+<div id="adminModal" class="modal">
+    <div class="modal-inner">
+        <button class="modal-close" onclick="closeAdmin()">×</button>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:2.5rem; margin-bottom:0.5rem;">Admin Dashboard</h1>
+        <p style="color:#999; margin-bottom:2rem;">Manage your magnet business</p>
+
+        <div class="admin-tabs">
+            <button class="atab on" onclick="showTab('qr', this)">📱 QR Generator</button>
+            <button class="atab" onclick="showTab('img', this)">🖼️ Image Processor</button>
+            <button class="atab" onclick="showTab('ord', this)">📋 Orders</button>
+        </div>
+
+        <!-- QR PANEL -->
+        <div id="qr-panel" class="apanel on">
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; margin-bottom:1.5rem;">Generate Event QR Code</h2>
+            <div class="form-row">
+                <div class="fld">
+                    <label>Event Name</label>
+                    <input type="text" id="evtName" placeholder="e.g. Sarah's Wedding">
+                </div>
+                <div class="fld">
+                    <label>Upload URL (optional)</label>
+                    <input type="text" id="evtUrl" placeholder="https://www.magnetmymemory.com/#upload">
+                </div>
+            </div>
+            <button class="btn-rose" onclick="makeQR()">Generate QR Code</button>
+            <div id="qrWrap" style="display:none; margin-top:2rem; text-align:center;">
+                <div id="qrBox"></div>
+                <p id="qrUrlText" style="margin-top:1rem; color:#666; font-size:0.9rem;"></p>
+                <button class="btn-outline" onclick="dlQR()" style="margin-top:1rem;">Download QR Code</button>
+            </div>
+        </div>
+
+        <!-- IMAGE PROCESSOR PANEL -->
+        <div id="img-panel" class="apanel">
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; margin-bottom:1.5rem;">Image Auto-Formatter</h2>
+            <div class="form-row">
+                <div class="fld">
+                    <label>Width (inches)</label>
+                    <input type="number" id="mW" value="2" step="0.1" min="0.5">
+                </div>
+                <div class="fld">
+                    <label>Height (inches)</label>
+                    <input type="number" id="mH" value="2" step="0.1" min="0.5">
+                </div>
+                <div class="fld">
+                    <label>DPI Quality</label>
+                    <select id="mDPI">
+                        <option value="150">150 DPI</option>
+                        <option value="300" selected>300 DPI (Recommended)</option>
+                        <option value="600">600 DPI (High)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="upload-drop" id="adminDrop">
+                <input type="file" id="adminFiles" accept="image/*" multiple style="display:none;">
+                <div style="font-size:3rem; margin-bottom:1rem;">📁</div>
+                <p style="font-weight:600; margin-bottom:0.25rem;">Drop images here or click to upload</p>
+                <p style="color:#999; font-size:0.9rem;">Supports JPG, PNG</p>
+            </div>
+
+            <div id="adminThumbGrid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:0.75rem; margin:1.5rem 0;"></div>
+
+            <button class="btn-rose" onclick="processImgs()">Process & Download All</button>
+            <canvas id="procCanvas" style="display:none;"></canvas>
+        </div>
+
+        <!-- ORDERS PANEL -->
+        <div id="ord-panel" class="apanel">
+            <h2 style="font-family:'Cormorant Garamond',serif; font-size:2rem; margin-bottom:0.5rem;">Orders</h2>
+            <p style="color:#999; margin-bottom:2rem;">Orders placed through your website appear here</p>
+            <div style="background:var(--light); border-radius:16px; padding:3rem; text-align:center;">
+                <div style="font-size:3rem; margin-bottom:1rem;">📦</div>
+                <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin-bottom:0.75rem;">Ready for Orders</h3>
+                <p style="color:#999;">When customers click "Place Order via WhatsApp" their order details go straight to your WhatsApp. All your orders are managed there for now.</p>
+                <a href="https://wa.me/447755414299" target="_blank" class="btn-rose" style="margin-top:1.5rem; display:inline-block;">Open WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ─── UPLOAD ─── */
+    var photos = [];
+    var uploadBox = document.getElementById('uploadBox');
+    var fileInput = document.getElementById('fileInput');
+    var photoGrid = document.getElementById('photoGrid');
+    var orderBtn  = document.getElementById('orderBtn');
+
+    uploadBox.onclick = function() { fileInput.click(); };
+
+    uploadBox.ondragover = function(e) {
+        e.preventDefault();
+        uploadBox.style.borderColor = '#F4768A';
+        uploadBox.style.background = 'rgba(200,68,90,0.1)';
+    };
+
+    uploadBox.ondragleave = function() {
+        uploadBox.style.borderColor = 'rgba(255,255,255,0.25)';
+        uploadBox.style.background = 'rgba(255,255,255,0.04)';
+    };
+
+    uploadBox.ondrop = function(e) {
+        e.preventDefault();
+        uploadBox.style.borderColor = 'rgba(255,255,255,0.25)';
+        uploadBox.style.background = 'rgba(255,255,255,0.04)';
+        readFiles(e.dataTransfer.files);
+    };
+
+    fileInput.onchange = function(e) { readFiles(e.target.files); };
+
+    function readFiles(files) {
+        for (var i = 0; i < files.length; i++) {
+            if (!files[i].type.match('image.*')) continue;
+            (function(file) {
+                var r = new FileReader();
+                r.onload = function(e) {
+                    photos.push(e.target.result);
+                    renderPhotos();
+                };
+                r.readAsDataURL(file);
+            })(files[i]);
+        }
+    }
+
+    function renderPhotos() {
+        photoGrid.innerHTML = '';
+        for (var i = 0; i < photos.length; i++) {
+            var d = document.createElement('div');
+            d.className = 'photo-thumb';
+            var img = document.createElement('img');
+            img.src = photos[i];
+            var btn = document.createElement('button');
+            btn.className = 'rm';
+            btn.textContent = '×';
+            btn.onclick = (function(idx) {
+                return function() { photos.splice(idx, 1); renderPhotos(); };
+            })(i);
+            d.appendChild(img);
+            d.appendChild(btn);
+            photoGrid.appendChild(d);
+        }
+        orderBtn.style.display = photos.length > 0 ? 'block' : 'none';
+    }
+
+    function placeOrder() {
+        var msg = 'Hi! I would like to order ' + photos.length + ' magnet(s). I have ' + photos.length + ' photo(s) ready. Please can you help me complete my order?';
+        window.open('https://wa.me/447755414299?text=' + encodeURIComponent(msg));
+        alert('Great! We will contact you on WhatsApp to complete your order.\n\nPhotos ready: ' + photos.length);
+    }
+
+    /* ─── SMOOTH SCROLL ─── */
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+            var href = this.getAttribute('href');
+            if (href === '#' || href === '#admin') return;
             e.preventDefault();
-            uploadZone.style.borderColor = 'var(--primary-light)';
-        };
-        
-        uploadZone.ondragleave = function() {
-            uploadZone.style.borderColor = 'rgba(255,255,255,0.3)';
-        };
-        
-        uploadZone.ondrop = function(e) {
-            e.preventDefault();
-            uploadZone.style.borderColor = 'rgba(255,255,255,0.3)';
-            handleFiles(e.dataTransfer.files);
-        };
-        
-        fileInput.onchange = function(e) {
-            handleFiles(e.target.files);
-        };
-        
-        function handleFiles(files) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if (file.type.match('image.*')) {
-                    var reader = new FileReader();
-                    reader.onload = (function(f) {
-                        return function(e) {
-                            photos.push(e.target.result);
-                            showPreview();
-                        };
-                    })(file);
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-        
-        function showPreview() {
-            preview.innerHTML = '';
-            for (var i = 0; i < photos.length; i++) {
-                var div = document.createElement('div');
-                div.className = 'preview-item';
-                var img = document.createElement('img');
-                img.src = photos[i];
-                var btn = document.createElement('button');
-                btn.textContent = '×';
-                btn.onclick = (function(index) {
-                    return function() {
-                        removePhoto(index);
-                    };
-                })(i);
-                div.appendChild(img);
-                div.appendChild(btn);
-                preview.appendChild(div);
-            }
-            orderBtn.style.display = photos.length > 0 ? 'inline-block' : 'none';
-        }
-        
-        function removePhoto(index) {
-            photos.splice(index, 1);
-            showPreview();
-        }
-        
-        function placeOrder() {
-            var msg = 'Hi! I would like to order ' + photos.length + ' magnet(s). I have ' + photos.length + ' photos ready to send.';
-            window.open('https://wa.me/447755414299?text=' + encodeURIComponent(msg));
-            alert('Great! We will contact you on WhatsApp to complete your order and collect your photos.\n\nPhotos ready: ' + photos.length);
-        }
-        
-        function openAdmin() {
-            var pass = prompt('Enter admin password:');
-            if (pass === 'MagnetAdmin2024!') {
-                document.getElementById('adminModal').classList.add('active');
-            } else if (pass !== null) {
-                alert('Incorrect password');
-            }
-        }
-        
-        function closeAdmin() {
-            document.getElementById('adminModal').classList.remove('active');
-        }
-        
-        function switchTab(tab) {
-            var tabs = document.querySelectorAll('.admin-tab');
-            var contents = document.querySelectorAll('.tab-content');
-            
-            tabs.forEach(function(t) {
-                t.classList.remove('active');
-            });
-            contents.forEach(function(c) {
-                c.classList.remove('active');
-            });
-            
-            event.target.classList.add('active');
-            document.getElementById(tab + '-tab').classList.add('active');
-        }
-        
-        function generateQR() {
-            var eventName = document.getElementById('eventName').value;
-            var url = document.getElementById('qrUrl').value || 'https://www.magnetmymemory.com/#upload';
-            
-            if (!eventName) {
-                alert('Please enter an event name');
-                return;
-            }
-            
-            var qrData = url + '?event=' + encodeURIComponent(eventName);
-            var qrDisplay = document.getElementById('qrDisplay');
-            qrDisplay.innerHTML = '';
-            
-            new QRCode(qrDisplay, {
-                text: qrData,
-                width: 256,
-                height: 256
-            });
-            
-            document.getElementById('qrResult').classList.remove('hidden');
-        }
-        
-        function downloadQR() {
-            var canvas = document.querySelector('#qrDisplay canvas');
-            var link = document.createElement('a');
-            link.download = 'qr-code.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-        
-        var adminUploadZone = document.getElementById('adminUploadZone');
-        var adminFileInput = document.getElementById('adminFileInput');
-        
-        adminUploadZone.onclick = function() {
-            adminFileInput.click();
-        };
-        
-        adminFileInput.onchange = function(e) {
-            handleAdminFiles(e.target.files);
-        };
-        
-        function handleAdminFiles(files) {
-            for (var i = 0; i < files.length; i++) {
-                var file = files[i];
-                if (file.type.match('image.*')) {
-                    var reader = new FileReader();
-                    reader.onload = (function(f) {
-                        return function(e) {
-                            adminPhotos.push(e.target.result);
-                            showAdminPreview();
-                        };
-                    })(file);
-                    reader.readAsDataURL(file);
-                }
-            }
-        }
-        
-        function showAdminPreview() {
-            var preview = document.getElementById('adminPreview');
-            preview.innerHTML = '';
-            for (var i = 0; i < adminPhotos.length; i++) {
-                var div = document.createElement('div');
-                div.style.cssText = 'position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 2px solid #E9ECEF;';
-                var img = document.createElement('img');
-                img.src = adminPhotos[i];
-                img.style.cssText = 'width: 100%; height: 100%; object-fit: cover;';
-                div.appendChild(img);
-                preview.appendChild(div);
-            }
-        }
-        
-        function processAdminImages() {
-            if (adminPhotos.length === 0) {
-                alert('Please upload images first');
-                return;
-            }
-            
-            var width = parseFloat(document.getElementById('imgWidth').value);
-            var height = parseFloat(document.getElementById('imgHeight').value);
-            var dpi = parseInt(document.getElementById('imgDPI').value);
-            
-            var canvas = document.getElementById('adminCanvas');
-            var ctx = canvas.getContext('2d');
-            
-            canvas.width = width * dpi;
-            canvas.height = height * dpi;
-            
-            for (var i = 0; i < adminPhotos.length; i++) {
-                (function(index, imgSrc) {
-                    var img = new Image();
-                    img.onload = function() {
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        
-                        var scale = Math.max(canvas.width / img.width, canvas.height / img.height);
-                        var x = (canvas.width / 2) - (img.width / 2) * scale;
-                        var y = (canvas.height / 2) - (img.height / 2) * scale;
-                        
-                        ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-                        
-                        setTimeout(function() {
-                            var link = document.createElement('a');
-                            link.download = 'magnet_' + width + 'x' + height + '_' + (index + 1) + '.png';
-                            link.href = canvas.toDataURL('image/png');
-                            link.click();
-                        }, 100 * index);
-                    };
-                    img.src = imgSrc;
-                })(i, adminPhotos[i]);
-            }
-            
-            alert('Processing ' + adminPhotos.length + ' images...');
-        }
-        
-        document.querySelectorAll('a[href^="#"]').forEach(function(link) {
-            link.onclick = function(e) {
-                var href = this.getAttribute('href');
-                if (href === '#') return;
-                e.preventDefault();
-                var target = document.querySelector(href);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            };
+            var el = document.querySelector(href);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         });
-    </script>
+    });
+
+    /* ─── ADMIN ─── */
+    function openAdmin() {
+        var pw = prompt('Enter admin password:');
+        if (pw === 'MagnetAdmin2024!') {
+            document.getElementById('adminModal').classList.add('open');
+        } else if (pw !== null) {
+            alert('Incorrect password. Please try again.');
+        }
+    }
+
+    function closeAdmin() {
+        document.getElementById('adminModal').classList.remove('open');
+    }
+
+    function showTab(id, btn) {
+        document.querySelectorAll('.apanel').forEach(function(p) { p.classList.remove('on'); });
+        document.querySelectorAll('.atab').forEach(function(b) { b.classList.remove('on'); });
+        document.getElementById(id + '-panel').classList.add('on');
+        btn.classList.add('on');
+    }
+
+    /* ─── QR ─── */
+    function makeQR() {
+        var name = document.getElementById('evtName').value.trim();
+        var url  = document.getElementById('evtUrl').value.trim() || 'https://www.magnetmymemory.com/#upload';
+        if (!name) { alert('Please enter an event name'); return; }
+        if (!url.startsWith('http')) url = 'https://' + url;
+        var full = url + '?event=' + encodeURIComponent(name);
+        var box  = document.getElementById('qrBox');
+        box.innerHTML = '';
+        new QRCode(box, { text: full, width: 256, height: 256, correctLevel: QRCode.CorrectLevel.H });
+        document.getElementById('qrUrlText').textContent = 'URL: ' + full;
+        document.getElementById('qrWrap').style.display = 'block';
+    }
+
+    function dlQR() {
+        var c = document.querySelector('#qrBox canvas');
+        if (!c) { alert('Generate a QR code first'); return; }
+        var a = document.createElement('a');
+        a.download = 'magnet-my-memory-qr.png';
+        a.href = c.toDataURL();
+        a.click();
+    }
+
+    /* ─── IMAGE PROCESSOR ─── */
+    var adminImgs = [];
+    var adminDrop  = document.getElementById('adminDrop');
+    var adminFiles = document.getElementById('adminFiles');
+
+    adminDrop.onclick = function() { adminFiles.click(); };
+
+    adminDrop.ondragover = function(e) {
+        e.preventDefault();
+        adminDrop.style.background = 'rgba(200,68,90,0.12)';
+    };
+
+    adminDrop.ondragleave = function() {
+        adminDrop.style.background = 'var(--rose-pale)';
+    };
+
+    adminDrop.ondrop = function(e) {
+        e.preventDefault();
+        adminDrop.style.background = 'var(--rose-pale)';
+        readAdminFiles(e.dataTransfer.files);
+    };
+
+    adminFiles.onchange = function(e) { readAdminFiles(e.target.files); };
+
+    function readAdminFiles(files) {
+        for (var i = 0; i < files.length; i++) {
+            if (!files[i].type.match('image.*')) continue;
+            (function(file) {
+                var r = new FileReader();
+                r.onload = function(e) {
+                    adminImgs.push(e.target.result);
+                    renderAdminThumbs();
+                };
+                r.readAsDataURL(file);
+            })(files[i]);
+        }
+    }
+
+    function renderAdminThumbs() {
+        var g = document.getElementById('adminThumbGrid');
+        g.innerHTML = '';
+        for (var i = 0; i < adminImgs.length; i++) {
+            var d = document.createElement('div');
+            d.style.cssText = 'aspect-ratio:1; border-radius:10px; overflow:hidden; border:2px solid #E9ECEF;';
+            var img = document.createElement('img');
+            img.src = adminImgs[i];
+            img.style.cssText = 'width:100%; height:100%; object-fit:cover;';
+            d.appendChild(img);
+            g.appendChild(d);
+        }
+    }
+
+    function processImgs() {
+        if (adminImgs.length === 0) { alert('Please upload images first'); return; }
+        var w   = parseFloat(document.getElementById('mW').value);
+        var h   = parseFloat(document.getElementById('mH').value);
+        var dpi = parseInt(document.getElementById('mDPI').value);
+        var c   = document.getElementById('procCanvas');
+        var ctx = c.getContext('2d');
+        c.width  = w * dpi;
+        c.height = h * dpi;
+
+        for (var i = 0; i < adminImgs.length; i++) {
+            (function(idx, src) {
+                var img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, c.width, c.height);
+                    var scale = Math.max(c.width / img.width, c.height / img.height);
+                    var x = (c.width  / 2) - (img.width  / 2) * scale;
+                    var y = (c.height / 2) - (img.height / 2) * scale;
+                    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+                    setTimeout(function() {
+                        var a = document.createElement('a');
+                        a.download = 'magnet_' + w + 'x' + h + '_' + (idx + 1) + '.png';
+                        a.href = c.toDataURL('image/png');
+                        a.click();
+                    }, 200 * idx);
+                };
+                img.src = src;
+            })(i, adminImgs[i]);
+        }
+        alert('Processing ' + adminImgs.length + ' image(s)... Downloads will begin shortly!');
+    }
+</script>
 </body>
 </html>
